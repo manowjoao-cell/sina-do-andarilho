@@ -50,6 +50,24 @@ label.tg input{width:20px;height:20px;accent-color:var(--rose)}
 .empty{color:var(--dim);font-size:14px}
 .shop{display:grid;gap:8px}
 .up{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+#shop.shop{display:block}
+.alg{margin-top:14px}.alg h4{margin:0 0 6px;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.alt{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px}
+.alc{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 8px 8px 10px;border-radius:12px;background:#131b1d;border:1px solid #233033;transition:border-color .15s,background .15s}
+.alc.can{border-color:#4a3f2a;background:#1a1f1c}
+.alc.mx{opacity:.6}
+.ali{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,transparent);border:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}
+.ali svg{width:22px;height:22px}
+.alx{display:flex;flex-direction:column;gap:1px;min-width:0}
+.aln{font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aln em{font-style:normal;font-weight:600;font-size:11.5px;color:var(--dim);margin-left:6px;font-variant-numeric:tabular-nums}
+.ale{font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ale b{color:#5fe08a;font-weight:700}
+.alp{display:block;height:3px;border-radius:2px;background:#26302f;margin-top:4px;overflow:hidden}.alp i{display:block;height:100%;background:var(--rose)}
+.alb{min-width:64px;min-height:36px;padding:0 10px;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;border-radius:9px}
+.alb span{margin-right:4px;color:#c38bff}.alb.on span{color:#1a0f0b}
+.slot{position:relative}.slot .lk{position:absolute;top:4px;right:6px;font-style:normal;font-size:12px}
+.opt.wpo{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:12px;align-items:center}.wpo select{min-height:38px;width:100%}@media(max-width:560px){.opt.wpo{grid-template-columns:1fr}}
+.altq{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid #3a4a4c;font-size:11px;color:var(--dim);cursor:help;vertical-align:1px}
 .up small{display:block;color:var(--dim);font-size:13px}
 .up button{min-width:118px;font-variant-numeric:tabular-nums}
 .souls{font-size:32px;color:#c9f0ff}
@@ -372,6 +390,7 @@ window.FIREBASE_CONFIG={
 <div class="iopts">
 <label class="opt"><input type="checkbox" id="iup"><span><b>Mostrar só itens melhores</b><small>Esconde da lista o que é pior que o equipado.</small></span></label>
 <label class="opt"><input type="checkbox" id="ascr"><span><b>Desmanchar itens piores sozinho</b><small id="scrinfo"></small></span></label>
+<label class="opt wpo"><span><b>Arma preferida</b><small>Só armas deste tipo são equipadas sozinhas e comparadas. As outras vão para a mochila.</small></span><select id="wpref"><option value="cls">Da classe</option><option value="espada">Espada</option><option value="machado">Machado</option><option value="arco">Arco</option><option value="cajado">Cajado</option><option value="any">Qualquer (maior poder)</option></select></label>
 <label class="opt"><input type="checkbox" id="aeqp"><span><b>Equipar itens melhores sozinho</b><small>O item novo vai direto para o herói.</small></span></label>
 </div>
 <div class="inv" id="inv"></div>
@@ -479,6 +498,20 @@ const META=[['atk','Força ancestral','+2 de dano base por nível',15,1.45,99],[
 ['luck','Sorte do apostador','+4 de sorte por nível',25,1.6,99],['xp','Memória','+8% de XP por nível',20,1.5,99],
 ['soul','Ceifador','+10% de almas por nível',30,1.55,99],['reroll','Baralho extra','+1 troca de cartas por corrida',40,2,5],
 ['bless','Bênção inicial','começa a corrida com uma escolha de raridade mínima maior',60,2.3,5],['four','Quarta carta','mostra 4 cartas por escolha',500,1,1]];
+const nf1=x=>String(Math.round(x*100)/100).replace('.',',');
+const ALG=[['Combate',['atk','hp','aspd','crit','critD','armor','regen','eva']],['Recompensas',['gold','soul','xp','luck','bag']],['Cartas',['reroll','bless','four']]];
+const ALT={atk:['#e9846a','sw','+2 dano base',l=>'+'+l*2],hp:['#ff6b6b','heart','+15 vida máxima',l=>'+'+l*15],aspd:['#ffd34d','bolt','+0,04 golpe/s',l=>'+'+nf1(l*.04)],
+crit:['#ffd34d','eye','+1% crítico',l=>'+'+l+'%'],critD:['#ff9a5a','star','+6% dano crítico',l=>'+'+l*6+'%'],armor:['#b8c4d0','shield','+3 armadura',l=>'+'+l*3],
+regen:['#5fe08a','leaf','+0,3 vida/s',l=>'+'+nf1(l*.3)+'/s'],eva:['#5fe0ff','wind','+0,5% esquiva',l=>'+'+nf1(l*.5)+'%'],
+bag:['#c99a6a','bag','+8 espaços na mochila',l=>'+'+l*8],gold:['#ffcf3f','coin','+10% ouro',l=>'+'+l*10+'%'],luck:['#5fe08a','clover','+4 sorte',l=>'+'+l*4],
+xp:['#7fb2ff','book','+8% XP',l=>'+'+l*8+'%'],soul:['#c38bff','soul','+10% almas',l=>'+'+l*10+'%'],
+reroll:['#9fe3ff','cards','+1 troca',l=>l+'/corrida'],bless:['#ffe69a','spark','carta inicial melhor',l=>'+'+l],four:['#ff6bd6','four','4 cartas por escolha',null]};
+const ALI={bag:'<path d="M16 24h32l4 32H12zM24 24v-6a8 8 0 0 1 16 0v6"/>',coin:'<circle cx="32" cy="32" r="20"/><path d="M32 22v20M26 27h9a4 4 0 0 1 0 8h-6"/>',
+clover:'<circle cx="24" cy="24" r="9"/><circle cx="40" cy="24" r="9"/><circle cx="24" cy="40" r="9"/><circle cx="40" cy="40" r="9"/><path d="M40 40l12 14"/>',
+book:'<path d="M12 14h18a4 4 0 0 1 4 4v34a4 4 0 0 0-4-4H12zM52 14H38a4 4 0 0 0-4 4v34a4 4 0 0 1 4-4h14z"/>',
+soul:'<path d="M32 8c10 10 16 18 16 28a16 16 0 0 1-32 0c0-6 4-10 6-12 0 6 4 8 6 8-2-10 0-18 4-24z"/>',
+cards:'<rect x="10" y="18" width="24" height="34" rx="4"/><path d="M30 14l20 4-6 32"/>',spark:'<path d="M32 8l5 19 19 5-19 5-5 19-5-19-19-5 19-5z"/>',
+four:'<rect x="8" y="16" width="16" height="30" rx="3"/><rect x="24" y="12" width="16" height="30" rx="3"/><rect x="40" y="16" width="16" height="30" rx="3"/><path d="M20 58h24"/>'};
 let save={souls:0,best:0,m:{},auto:false,inv:[],eq:{},nid:0,gold:0};
 try{const s=JSON.parse(localStorage.getItem('estrada-cartas-v1'));if(s)save=Object.assign(save,s)}catch(e){}
 if(!Array.isArray(save.inv))save.inv=[];if(!save.eq||typeof save.eq!=='object')save.eq={};
@@ -545,14 +578,19 @@ function makeItem(r,il){
  if(sl[0]==='elmo'||sl[0]==='peito'||sl[0]==='botas')it.v=SLOTS.find(x=>x[0]===sl[0])[3].indexOf(it.n.split(' ')[0]);
  return it;
 }
+const prefW=()=>{const p=save.wpref||'cls';return p==='any'?null:p==='cls'?(CLS[runCls]?.w||null):p};
+const wOK=it=>!it||it.s!=='arma'||!prefW()||wType(it)===prefW();
+const lockd=sl=>!!(save.lock&&save.lock[sl]);
+function better(it){if(!it||lockd(it.s)||!wOK(it))return false;const c=save.eq[it.s];if(!c||!wOK(c))return true;return ipow(it)>ipow(c)}
+function worse(it){const c=save.eq[it.s];return !!c&&wOK(it)&&wOK(c)&&ipow(it)<=ipow(c)}
 const scrapV=it=>Math.floor((it.r+1)**2*(1+it.il/10));
 function worstIdx(){let wi=0;save.inv.forEach((it,i)=>{if(ipow(it)<ipow(save.inv[wi]))wi=i});return wi}
 function dropItem(e){
  const it=makeItem(rollR(e.k==='boss'?2:0),horde);sfx('drop',it.r);tut('item','Você achou um item!','Ele vai para a Mochila. Use Equipar melhores abaixo do jogo.');
  lt.push({x:e.x,y:e.y-e.r*2,vy:-260,c:R[it.r].c,r:it.r,life:2.2});
  const cur=save.eq[it.s];
- if(save.aeq!==false&&ipow(it)>ipow(cur)&&save.aeqOn){save.inv.push(it);equipId(it.id);addTx(e.x,e.y-70,R[it.r].n+'! equipado',R[it.r].c,15,1.4);persist();renderPanels();return}
- if(save.ascrap!==false&&cur&&ipow(it)<=ipow(cur)){save.souls+=scrapV(it);scrN++;scrG+=scrapV(it);addTx(e.x,e.y-70,`${R[it.r].n}: pior que o seu, +${scrapV(it)} almas`,'#9fb1b0',12,1.1);persist();renderPanels();return}
+ if(save.aeq!==false&&better(it)&&save.aeqOn){save.inv.push(it);equipId(it.id);addTx(e.x,e.y-70,R[it.r].n+'! equipado',R[it.r].c,15,1.4);persist();renderPanels();return}
+ if(save.ascrap!==false&&worse(it)){save.souls+=scrapV(it);scrN++;scrG+=scrapV(it);addTx(e.x,e.y-70,`${R[it.r].n}: pior que o seu, +${scrapV(it)} almas`,'#9fb1b0',12,1.1);persist();renderPanels();return}
  if(save.inv.length>=invCap()){const wi=worstIdx(),w=save.inv[wi];
   if(ipow(w)<ipow(it)){save.souls+=scrapV(w);save.inv.splice(wi,1);save.inv.push(it);addTx(e.x,e.y-70,R[it.r].n+'! (pior item virou almas)',R[it.r].c,14,1.4)}
   else{save.souls+=scrapV(it);addTx(e.x,e.y-70,'Mochila cheia: +'+scrapV(it)+' almas','#ff9a9a',13,1.2)}}
@@ -569,16 +607,16 @@ cajado:'<path d="M20 58 42 22"/><circle cx="46" cy="14" r="9"/><path d="M46 3v4M
 const skey=it=>it.s==='arma'?wType(it):it.s;
 const isvg=(s,c)=>`<svg viewBox="0 0 64 64" fill="none" stroke="${c}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${SG[s]}</svg>`;
 let scrN=0,scrG=0;
-function sweepInv(){if(save.ascrap===false)return 0;let g=0,n=0;save.inv=save.inv.filter(it=>{const c=save.eq[it.s];if(c&&ipow(it)<=ipow(c)){g+=scrapV(it);n++;return false}return true});
+function sweepInv(){if(save.ascrap===false)return 0;let g=0,n=0;save.inv=save.inv.filter(it=>{if(worse(it)){g+=scrapV(it);n++;return false}return true});
  if(n){save.souls+=g;scrN+=n;scrG+=g;if(sel&&sel.w==='inv'&&!save.inv.some(i=>i.id===sel.id))sel=null}return n}
 function applyEq(){sweepInv();const f=hero.hp/maxHp(),b4=setCount();recalc();const af=setCount();for(const r in af)if(Math.floor(af[r]/2)>Math.floor((b4[r]||0)/2)&&af[r]>=2){banner={txt:`${SETN[r]} · ${af[r]} peças`,life:2.2,boss:false};sfx('unlock')}hero.hp=f*maxHp();persist();renderPanels()}
 function renderEquip(){
  document.getElementById('dropinfo').textContent=`Cada inimigo tem ${(dropChance()*100).toFixed(1)}% de chance de soltar um item, e a sorte aumenta essa chance. Chefes sempre soltam um item Raro ou melhor. O nível do item acompanha a horda: cada nível deixa os atributos 8% mais fortes, e a raridade multiplica tudo. Na mesma raridade, item de nível maior é sempre melhor.`;
  document.getElementById('slots').innerHTML=SLOTS.map(sl=>{const it=save.eq[sl[0]],c=it?R[it.r].c:'#4a6468';
-  return `<button class="slot${sel&&sel.w==='eq'&&sel.s===sl[0]?' sel':''}" data-eq="${sl[0]}" style="--c:${it?c:'#2f4a4f'}">${isvg(it?skey(it):sl[0],c)}<span><small>${sl[1]}</small>${it?`<b style="color:${c}">${it.n}</b>`:'vazio'}</span></button>`}).join('');
+  return `<button class="slot${sel&&sel.w==='eq'&&sel.s===sl[0]?' sel':''}" data-eq="${sl[0]}" style="--c:${it?c:'#2f4a4f'}">${isvg(it?skey(it):sl[0],c)}<span><small>${sl[1]}</small>${it?`<b style="color:${c}">${it.n}</b>`:'vazio'}</span>${lockd(sl[0])?'<i class="lk" title="Travado: nada substitui sozinho">🔒</i>':''}</button>`}).join('');
  {const ec=setCount();const ks=Object.keys(ec).sort((a,b)=>b-a);document.getElementById('sets').innerHTML=ks.length?ks.map(r=>`<div class="setr" style="--c:${R[r].c}"><b>${SETN[r]} <span>${ec[r]}/6</span></b>${setTxt(+r).map(([n,t])=>`<small class="${ec[r]>=n?'ok':''}">${n} peças: ${t}</small>`).join('')}</div>`).join(''):'<p class="empty small">Peças da mesma raridade formam um conjunto: 2, 4 e 6 equipadas liberam bônus.</p>'}
  {const el=document.getElementById('scrinfo');if(el)el.textContent=(save.ascrap===false?'Desligado: itens piores ficam na mochila.':'Itens piores que o equipado viram almas assim que caem.')+(scrN?` Nesta sessão: ${scrN} ${scrN===1?'item':'itens'}, +${scrG} almas.`:'')}
-{const q=document.getElementById('quick');if(q){const nw=save.inv.filter(i=>i.nw).length,fl=save.inv.length>=invCap(),up=save.inv.filter(it=>ipow(it)>ipow(save.eq[it.s])).length;
+{const q=document.getElementById('quick');if(q){const nw=save.inv.filter(i=>i.nw).length,fl=save.inv.length>=invCap(),up=save.inv.filter(it=>better(it)).length;
  q.innerHTML=`<span class="ql">Equipado</span>${SLOTS.map(sl=>{const it=save.eq[sl[0]],c=it?R[it.r].c:'#2f4a4f';return `<button class="qs" data-qs="${sl[0]}" style="--c:${c}" title="${it?escH(it.n):sl[1]+': vazio'}" aria-label="${sl[1]}">${isvg(it?skey(it):sl[0],it?c:'#4a6468')}${it?`<small>${it.il}</small>`:''}</button>`}).join('')}
  <span class="qnew${fl?' full':''}">${fl?'Mochila cheia':up?`${up} ${up>1?'itens melhores':'item melhor'} na mochila`:nw?`${nw} novo${nw>1?'s':''}`:''}</span><span class="qsp"></span>
  ${up?'<button class="qb on" id="qbest">Equipar melhores</button>':''}<button class="qb" id="qopen">Abrir mochila (I)</button>`;
@@ -598,7 +636,7 @@ function renderEquip(){
  d.innerHTML=`<div class="det" style="--c:${R[it.r].c}"><h3 style="margin-top:0">${it.n}</h3><p class="empty">${R[it.r].n} · ${it.s==='arma'?WP[wType(it)].n+(WP[wType(it)].melee?' (corpo a corpo)':' (longo alcance)'):SLOTS.find(x=>x[0]===it.s)[1]} · nível ${it.il} · poder <b>${ipow(it)}</b> · ${SETN[it.r]}${cur?` <span class="${ipow(it)>=ipow(cur)?'pos':'neg'}">(${ipow(it)>=ipow(cur)?'+':'−'}${Math.abs(ipow(it)-ipow(cur))})</span>`:''}</p>${it.s==='arma'?`<p class="empty">${wpDesc(wType(it))}</p>`:''}
  <ul>${it.mods.map(m=>`<li>${modLine(m.k,m.v)}</li>`).join('')}</ul>
  ${cur?`<p class="empty">Comparado com ${cur.n}:</p><ul>${diff||'<li class="empty">Sem diferença</li>'}</ul>`:sel.w==='inv'?'<p class="empty">Espaço vazio: equipar só soma.</p>':''}
- <div class="acts">${sel.w==='inv'?`<button class="on" data-act="eq">Equipar</button><button data-act="scrap">Desmanchar · +${scrapV(it)} almas</button>`:`<button data-act="uneq">Desequipar</button>`}</div>
+ <div class="acts">${sel.w==='inv'?`<button class="on" data-act="eq">Equipar</button><button data-act="scrap">Desmanchar · +${scrapV(it)} almas</button>`:`<button data-act="uneq">Desequipar</button><button data-act="lock" class="${lockd(sel.s)?'on':''}">${lockd(sel.s)?'🔒 Travado':'🔓 Travar espaço'}</button>`}</div>${sel.w==='eq'&&lockd(sel.s)?'<p class="empty small">Travado: nem a troca automática nem "Equipar melhores" mexem neste espaço.</p>':''}
  <div class="acts"><button data-act="up" ${(save.gold||0)<upCost(it).g||save.souls<upCost(it).a?'disabled':''}>Aprimorar para nível ${it.il+1} · ${upCost(it).g} ouro + ${upCost(it).a} almas</button></div>
  <p class="empty small">Aprimorar deixa os atributos 8% mais fortes, como um item de nível maior.${it.up?` Aprimorado ${it.up}x.`:''}</p></div>`;
 }
@@ -609,9 +647,10 @@ document.getElementById('inv').onclick=e=>{const b=e.target.closest('[data-id]')
 document.getElementById('detail').onclick=e=>{const b=e.target.closest('[data-act]');if(!b||!sel)return;const act=b.dataset.act;
  if(act==='eq')equipId(sel.id);
  else if(act==='up'){const it=sel.w==='inv'?save.inv.find(i=>i.id===sel.id):save.eq[sel.s];if(it&&upgradeItem(it)){if(sel.w==='eq')applyEq();else{persist();renderPanels()}}}
+ else if(act==='lock'){save.lock=save.lock||{};save.lock[sel.s]=!save.lock[sel.s];persist();renderPanels()}
  else if(act==='uneq'){if(save.inv.length>=invCap()){b.textContent='Mochila cheia';return}const it=save.eq[sel.s];delete save.eq[sel.s];save.inv.push(it);sel={w:'inv',id:it.id};applyEq()}
  else if(act==='scrap'){const i=save.inv.findIndex(x=>x.id===sel.id);if(i<0)return;save.souls+=scrapV(save.inv[i]);save.inv.splice(i,1);sel=null;persist();renderPanels()}};
-function equipBest(){let n=0;for(const sl of SLOTS){const k=sl[0];let best=save.eq[k],bi=-1;save.inv.forEach((it,i)=>{if(it.s===k&&ipow(it)>ipow(best)){best=it;bi=i}});
+function equipBest(){let n=0;for(const sl of SLOTS){const k=sl[0];if(lockd(k))continue;let best=null,bi=-1;save.inv.forEach((it,i)=>{if(it.s===k&&wOK(it)&&(!best||ipow(it)>ipow(best))){best=it;bi=i}});if(bi>=0&&!better(best))bi=-1;
  if(bi>=0){const it=save.inv.splice(bi,1)[0],old=save.eq[k];save.eq[k]=it;it.nw=0;if(old){old.nw=0;save.inv.push(old)}n++}}
  sel=null;applyEq();const b=document.getElementById('bestb');b.textContent=n?`${n} trocado${n>1?'s':''}`:'Já está no melhor';sfx(n?'buy':'pick');setTimeout(()=>{b.textContent='Equipar melhores'},1600)}
 document.getElementById('bestb').onclick=equipBest;
@@ -626,6 +665,7 @@ document.getElementById('impb').onclick=()=>{const box=document.getElementById('
   save=Object.assign({souls:0,best:0,m:{},inv:[],eq:{},nid:0,gold:0},o);persist();m.textContent='Progresso importado! Recarregando...';setTimeout(()=>location.reload(),800)}catch(e){m.textContent='Código inválido. Confira se copiou o código inteiro.'}}};
 {const F=()=>save.ifl||(save.ifl={o:'il',s:'',r:0,up:false}),so=document.getElementById('isort'),sl=document.getElementById('islot'),ra=document.getElementById('irar'),up=document.getElementById('iup');
  const f=F();so.value=f.o;sl.value=f.s;ra.value=f.r;up.checked=!!f.up;
+ {const wp_=document.getElementById('wpref');wp_.value=save.wpref||'cls';wp_.onchange=()=>{save.wpref=wp_.value;persist();renderPanels()}}
  const ac=document.getElementById('ascr'),ae=document.getElementById('aeqp');ac.checked=save.ascrap!==false;ae.checked=!!save.aeqOn;
  ac.onchange=()=>{save.ascrap=ac.checked;if(ac.checked)sweepInv();persist();renderPanels()};
  ae.onchange=()=>{save.aeqOn=ae.checked;persist()};
@@ -750,7 +790,7 @@ const potP=()=>8+horde*2;
 function openShop(){
  if(mut.noshop)return false;
  const st0=[];for(let i=0;i<4;i++)st0.push(makeItem(Math.max(rollR(0),i===0?1:0),horde));
- if(!st0.some(it=>ipow(it)>ipow(save.eq[it.s])))return false;
+ if(!st0.some(it=>better(it)))return false;
  stock=st0;state='shop';shopT=25;sfx('bell');drawShop();if(save.auto)setTimeout(autoShop,900);return true;
 }
 function drawShop(){
@@ -778,8 +818,8 @@ function autoShop(){
  if(state!=='shop')return;const got=[];
  if(hero.hp<maxHp()*.5&&save.gold>=potP()){save.gold-=potP();heal(maxHp()*.5);got.push('Poção de vida')}
 
- const cand=stock.map((it,i)=>({it,i,g:it&&!it.sold?ipow(it)-ipow(save.eq[it.s]):0})).filter(c=>c.g>0).sort((a,b)=>b.g-a.g);
- for(const c of cand){const p=price(c.it);if(save.gold<p)continue;if(save.eq[c.it.s]&&ipow(c.it)<=ipow(save.eq[c.it.s]))continue;
+ const cand=stock.map((it,i)=>({it,i,g:it&&!it.sold&&better(it)?ipow(it)-ipow(save.eq[it.s])+1e4*!wOK(save.eq[it.s]):0})).filter(c=>c.g>0).sort((a,b)=>b.g-a.g);
+ for(const c of cand){const p=price(c.it);if(save.gold<p)continue;if(!better(c.it))continue;
   if(save.inv.length>=invCap()){const wi=worstIdx();save.souls+=scrapV(save.inv[wi]);save.inv.splice(wi,1)}
   save.gold-=p;mEv('buy');save.inv.push(c.it);stock[c.i]={...c.it,sold:1};equipId(c.it.id);got.push(c.it.n)}
  if(got.length)sfx('buy');persist();renderPanels();drawShop();
@@ -895,7 +935,7 @@ function openEvent(k){const ks=Object.keys(EVS).filter(k=>k!=='apos'||(save.gold
  if(save.auto)setTimeout(()=>{if(state!=='event')return;doEvent(k==='sant'?'atk':k==='bau'&&hero.hp>maxHp()*.6?'open':'leave')},900);
  return true}
 function doEvent(a){if(state!=='event')return;let msg='',col='';
- if(a==='open'){const it=makeItem(Math.max(3,rollR(0)),horde);save.inv.push(it);if(ipow(it)>ipow(save.eq[it.s])&&(save.aeqOn||save.auto))equipId(it.id);st.hpPct-=12;recalc();hero.hp=Math.min(hero.hp,maxHp());msg=`Você pegou <b style="color:${R[it.r].c}">${it.n}</b> (${R[it.r].n}). A maldição pesa: vida máxima agora ${fmt(maxHp())}.`;sfx('drop',it.r)}
+ if(a==='open'){const it=makeItem(Math.max(3,rollR(0)),horde);save.inv.push(it);if(better(it)&&(save.aeqOn||save.auto))equipId(it.id);st.hpPct-=12;recalc();hero.hp=Math.min(hero.hp,maxHp());msg=`Você pegou <b style="color:${R[it.r].c}">${it.n}</b> (${R[it.r].n}). A maldição pesa: vida máxima agora ${fmt(maxHp())}.`;sfx('drop',it.r)}
  else if(a==='atk'){st.atkPct+=15;recalc();msg=`A lâmina brilha. Dano por golpe agora ${nf(atk())}.`;sfx('unlock')}
  else if(a==='hp'){st.hpPct+=15;recalc();hero.hp=maxHp();msg=`Pele de pedra. Vida máxima ${fmt(maxHp())}, vida cheia.`;sfx('pot')}
  else if(a==='bet'){const b=Math.floor((save.gold||0)/2);if(Math.random()<.5){save.gold+=b;msg=`Cara! Você ganhou <b style="color:#ffcf3f">+${b} de ouro</b>.`;sfx('buy')}else{save.gold-=b;col='bad';msg=`Coroa. Você perdeu ${b} de ouro.`;sfx('hurt')}}
@@ -1532,10 +1572,11 @@ function renderPanels(){
    save.ess=(save.ess||0)+rebGain();save.reb=(save.reb||0)+1;save.m={};save.souls=0;save.cbest=0;persist();sfx('legend');tip('Renascimento!','Seu Altar recomeçou, mas a Essência fica para sempre',5);if(state!=='dead')die();newRun();renderPanels()}}
   rb.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{const m=EUP.find(x=>x[0]===b.dataset.e),c=eCost(m);if((save.ess||0)<c)return;save.ess-=c;save.e[m[0]]=le(m[0])+1;sfx('buy');recalc();persist();renderPanels()})}
  document.getElementById('souls').textContent=save.souls+' almas';
- document.getElementById('best').textContent=save.best?`Recorde: horda ${save.best}. Os atributos de combate valem na hora; sorte, XP, almas, trocas e bênção contam na próxima corrida. Cuidado: altar e equipamento também aumentam a Ameaça (agora x${threat().toFixed(2)}), que fortalece os inimigos, mas sempre menos do que você ganhou.`:'Almas vêm da morte. Quanto mais longe, mais almas.';
- document.getElementById('shop').innerHTML=META.map(m=>{const l=lv(m[0]),max=l>=m[5],c=cost(m);
-  return `<div class="up"><div><b>${m[1]}</b> <span class="empty">nível ${l}${m[5]<99?'/'+m[5]:''}</span><small>${m[2]}</small></div>
-  <button data-m="${m[0]}" ${max||save.souls<c?'disabled':''}>${max?'Máximo':c+' almas'}</button></div>`}).join('');
+ {const b=document.getElementById('best');b.innerHTML=save.best?`Recorde: horda <b>${save.best}</b> · Ameaça <b>x${threat().toFixed(2)}</b> <span class="altq" title="Os atributos de combate valem na hora; sorte, XP, almas, trocas e bênção contam na próxima corrida. Altar e equipamento também aumentam a Ameaça, que fortalece os inimigos, mas sempre menos do que você ganhou.">?</span>`:'Almas vêm da morte. Quanto mais longe, mais almas.'}
+ document.getElementById('shop').innerHTML=ALG.map(([gn,ks])=>`<div class="alg"><h4>${gn}</h4><div class="alt">${ks.map(k=>{const m=META.find(x=>x[0]===k),l=lv(k),max=l>=m[5],c=cost(m),ok=!max&&save.souls>=c,a=ALT[k],cap=m[5]<99;
+  return `<div class="alc${ok?' can':''}${max?' mx':''}" title="${m[1]}: ${m[2]}"><span class="ali" style="--ac:${a[0]}"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">${GL[a[1]]||ALI[a[1]]}</svg></span>
+  <span class="alx"><span class="aln">${m[1]}<em>${cap?l+'/'+m[5]:'nv '+l}</em></span><span class="ale">${a[2]}${l&&a[3]?` · <b>${a[3](l)}</b>`:''}</span>${cap&&m[5]>1?`<i class="alp"><i style="width:${l/m[5]*100}%"></i></i>`:''}</span>
+  <button data-m="${k}" class="alb${ok?' on':''}" ${ok?'':'disabled'} aria-label="Comprar ${m[1]} por ${c} almas">${max?'MÁX':`<span>✦</span>${fmt(c)}`}</button></div>`}).join('')}</div></div>`).join('');
  renderEquip();
  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const m=META.find(x=>x[0]===b.dataset.m),c=cost(m);if(save.souls<c||lv(m[0])>=m[5])return;
   save.souls-=c;save.m[m[0]]=lv(m[0])+1;sfx('buy');if(st)recalc();persist();renderPanels()});
