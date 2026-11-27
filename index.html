@@ -331,6 +331,29 @@ box-shadow:0 10px 26px rgba(0,0,0,.5);animation:deal .35s cubic-bezier(.2,1.4,.4
 button.mini{min-height:30px;padding:0 10px;font-size:12.5px;margin-left:4px}.acbox{margin-bottom:10px}
 .card .real{order:6;display:block;font-size:12.5px;font-weight:700;color:#5fe08a;line-height:1.25;margin-top:2px}@media(max-width:640px){.card .real{font-size:12px}}
 .spdg{align-items:center}.spdg button{min-width:40px;font-size:20px;font-weight:800;padding:0!important}.spdg span{min-width:56px;text-align:center;font-weight:800;font-size:16px}.spn{font-size:12.5px;color:var(--dim);white-space:nowrap}
+
+/* ---- painel lateral ---- */
+@media (min-width:1200px){
+body.side .band.top{padding-top:8px!important;padding-bottom:4px!important}
+body.side .top h1{font-size:20px!important}body.side .top .emb{width:30px;height:30px}
+body.side section.band:has(.play){padding:4px 14px 10px!important}
+body.side .play{max-width:none!important;grid-template-columns:minmax(0,1fr) clamp(390px,29vw,500px)!important;gap:12px;align-items:start}
+body.side .game{max-width:calc((100vh - 200px) * 2.4)!important}
+body.side .dock{position:sticky!important;top:8px;height:calc(100vh - 16px);max-height:calc(100vh - 16px)!important;overflow:hidden!important;display:flex;flex-direction:column}
+body.side .dock .tab{flex:1;overflow:auto;padding:12px}
+body.side .tabs{border-radius:14px 14px 0 0}
+body.side .tabs button{flex:1 1 auto!important;padding:0 6px;font-size:13px}
+body.side #tab-eq:not([hidden]){display:block}
+body.side #tab-eq .slots{grid-template-columns:repeat(3,minmax(0,1fr))}
+body.side #tab-eq .iopts,body.side #tab-eq #inv,body.side #tab-eq #detail,body.side #tab-eq .ifilt,body.side #tab-eq .invhead{margin-top:10px}
+body.side #tab-al:not([hidden]) .shop{display:block}
+body.side #tab-al .alg{margin-top:10px}
+body.side #tab-al .alt{grid-template-columns:minmax(0,1fr)}
+body.side #tab-al:not([hidden]) .achs{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.side .quick{display:none}
+body.side .top .brand{max-width:none!important;margin:0 14px}
+}
+#sideb{display:none}@media (min-width:1200px){#sideb{display:inline-flex}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -362,7 +385,7 @@ window.FIREBASE_CONFIG={
 <div class="seg spdg" role="group" aria-label="Velocidade"><button id="spm" aria-label="Diminuir velocidade">−</button><span id="spv" aria-live="polite">1x</span><button id="spp" aria-label="Aumentar velocidade">+</button></div><span class="spn" id="spn"></span>
 <button id="spb" class="on" title="Habilidade especial da classe">Especial (Q)</button><button id="manb" title="Controle manual: A e D andam, mouse mira, botão esquerdo ataca, espaço esquiva">Manual (M)</button><button id="rollb" title="Esquiva: 0,6s invulnerável, recarga 4s">Esquivar (E)</button>
 <button id="pause">Pausar</button>
-<button id="hudb" title="Mostrar ou esconder atributos e sinergias na tela (H)">Ocultar atributos</button>
+<button id="sideb" title="Mostrar ou esconder o painel lateral (P)">Painel (P)</button><button id="hudb" title="Mostrar ou esconder atributos e sinergias na tela (H)">Ocultar atributos</button>
 <label class="tg"><input type="checkbox" id="auto"> Escolha automática</label>
 <div class="seg snd" role="group" aria-label="Som"><button id="sndb" aria-pressed="true" title="Efeitos sonoros">Som</button><button id="musb" aria-pressed="true" title="Música ambiente">Música</button><input type="range" id="vol" min="0" max="100" aria-label="Volume"></div>
 <span class="sp"></span>
@@ -1730,9 +1753,12 @@ document.getElementById('sugf').onsubmit=async ev=>{ev.preventDefault();const t=
  if(save.lastSug&&Date.now()-save.lastSug<60000){m.textContent='Espere um minuto antes de enviar outra sugestão.';return}
  m.textContent='Enviando...';try{await DB.collection('sugestoes').add({uid:UID,nick:save.nick||'',texto:txt.slice(0,1500),recorde:save.best||0,t:Date.now()});save.lastSug=Date.now();persist();t.value='';m.textContent='Sugestão enviada. Obrigado!'}
  catch(e){m.textContent='Não consegui enviar agora. Tente de novo em instantes.'}};
+function syncSide(){const on=save.side!==false;document.body.classList.toggle('side',on);const b=document.getElementById('sideb');if(b){b.classList.toggle('on',on);b.textContent=on?'Esconder painel (P)':'Mostrar painel (P)'}}
+function openDock(){if(matchMedia('(min-width:1200px)').matches){if(save.side===false){save.side=true;persist();syncSide()}}else{const d=document.getElementById('dock');if(d)d.scrollIntoView({behavior:'smooth',block:'start'})}}
 function setTab(k){document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===k;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
  for(const t of ['eq','st','al','rk','sg'])document.getElementById('tab-'+t).hidden=t!==k}
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+syncSide();document.getElementById('sideb').onclick=e=>{save.side=save.side===false;persist();syncSide();e.currentTarget.blur()};
 {let dp=null;const ib=document.getElementById('instb'),ios=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
  addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;ib.hidden=false});
  if(ios&&!standalone)ib.hidden=false;
@@ -1741,13 +1767,14 @@ document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.datase
 document.getElementById('rollb').onclick=roll;document.getElementById('spb').onclick=special;
 const hb=document.getElementById('hudb'),syncHud=()=>{hb.textContent=save.hudMin?'Mostrar atributos':'Ocultar atributos';hb.setAttribute('aria-pressed',!!save.hudMin)};syncHud();
 hb.onclick=()=>{save.hudMin=!save.hudMin;persist();syncHud()};
-addEventListener('keydown',e=>{
+addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
  if((e.key==='e'||e.key==='E')&&e.target.tagName!=='INPUT'){roll();return}
  if((e.key==='q'||e.key==='Q')&&e.target.tagName!=='INPUT'){special();return}
  if((e.key==='+'||e.key==='=')&&e.target.tagName!=='INPUT'){document.getElementById('spp').click();return}
  if(e.key==='-'&&e.target.tagName!=='INPUT'){document.getElementById('spm').click();return}
  if((e.key==='h'||e.key==='H')&&e.target.tagName!=='INPUT'){hb.click();return}
  if(e.target.tagName!=='INPUT'&&(e.key==='m'||e.key==='M')){toggleMan();return}
+ if(e.target.tagName!=='INPUT'&&e.target.tagName!=='TEXTAREA'&&(e.key==='p'||e.key==='P')){document.getElementById('sideb').click();return}
  if(manOn()&&e.target.tagName!=='INPUT'){const k=e.key.toLowerCase();if(k==='a'||k==='arrowleft'||k==='d'||k==='arrowright'){if(k==='a'||k==='arrowleft')MAN.a=1;else MAN.d=1;MAN.last=performance.now();e.preventDefault();return}if(e.key===' '&&state==='run'){roll();MAN.last=performance.now();e.preventDefault();return}}
  if(e.target.tagName!=='INPUT'&&state!=='pick'){const tk={i:'eq',t:'st',a:'al',r:'rk'}[e.key.toLowerCase()];if(tk){setTab(tk);openDock()}}
  if(state==='event'){const b=ov.querySelectorAll('[data-ev]')[+e.key-1];if(b&&!b.disabled){b.click();e.preventDefault()}return}
