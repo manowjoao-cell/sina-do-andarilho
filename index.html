@@ -388,8 +388,10 @@ window.FIREBASE_CONFIG={
 <script>
 {
 const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),ov=document.getElementById('ov');
-const W=960,H=400,GY=330,HX=170,dpr=Math.min(2,window.devicePixelRatio||1);
-cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+const W=960,H=400,GY=330,HX=170;let RS=1;
+function fitCanvas(){const r=cv.getBoundingClientRect(),d=Math.min(3,window.devicePixelRatio||1);let pw=Math.round(Math.max(W,(r.width||W)*d));pw=Math.min(pw,3840);
+ const sc=pw/W;if(Math.abs(sc-RS)<.01&&cv.width===pw)return;RS=sc;cv.width=pw;cv.height=Math.round(H*sc);ctx.setTransform(sc,0,0,sc,0,0);ctx.imageSmoothingQuality='high'}
+fitCanvas();new ResizeObserver(fitCanvas).observe(cv);addEventListener('resize',fitCanvas);
 
 const R=[{n:'Comum',c:'#9aa3ad',m:1},{n:'Incomum',c:'#3fc464',m:1.6},{n:'Raro',c:'#3d8bff',m:2.5},
 {n:'Épico',c:'#a95cff',m:4},{n:'Lendário',c:'#ffc61a',m:6.5},{n:'Mítico',c:'#ff3b3b',m:10}];
