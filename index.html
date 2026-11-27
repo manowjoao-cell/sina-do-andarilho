@@ -149,7 +149,33 @@ button.warnb{border-color:#ff6b6b;color:#ff9a9a}
 .reb{margin-top:14px;padding:12px;border:1px solid #5a3a8a;border-radius:12px;background:radial-gradient(circle at 0 0,rgba(169,92,255,.18),transparent 60%)}.reb h3{margin-top:0;color:#c9a0ff}.essv{font-size:22px;font-weight:800;color:#c9a0ff;margin:6px 0}.reb .rebh{margin:0}
 .iota{width:100%;min-height:90px;margin-top:8px;font:12px/1.4 monospace;color:var(--ink);background:#0d1719;border:1.5px solid #2f4a4f;border-radius:8px;padding:8px}
 .daily{display:grid;gap:4px;padding:12px;border:1px solid #ffd34d55;border-radius:12px;background:rgba(255,211,77,.06);margin-bottom:12px}.daily small{color:var(--dim)}.daily button{justify-self:start;margin-top:6px}
-.rkseg{margin-top:6px}.evt{max-width:640px}.evd{color:#cfdcdb;font-size:16px;margin:0 0 18px}.evo{display:grid;gap:10px}.evo button{min-height:52px;text-align:left;padding:0 18px;font-size:15px}
+.rkseg{margin-top:6px}.evt{display:flex;gap:22px;align-items:center;width:100%;max-width:760px;margin:auto;padding:22px;border-radius:18px;background:linear-gradient(160deg,#1b2224 0%,#12171a 100%);border:1px solid color-mix(in srgb,var(--ec) 55%,transparent);box-shadow:0 0 40px var(--eg),inset 0 0 0 1px rgba(255,255,255,.03);animation:evin .35s ease-out}
+@keyframes evin{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.evart{flex:0 0 190px;aspect-ratio:6/5;border-radius:14px;background:radial-gradient(circle at 50% 60%,var(--eg),transparent 70%),#0c1012;border:1px solid rgba(255,255,255,.06);display:grid;place-items:center}
+.evart svg{width:92%;height:auto}
+.evpulse{animation:evp 2.2s ease-in-out infinite}
+@keyframes evp{50%{opacity:.55}}
+.evsp{animation:evs 1.8s ease-in-out infinite}.evsp.d2{animation-delay:.6s}.evsp.d3{animation-delay:1.2s}
+@keyframes evs{0%,100%{opacity:0;transform:translateY(4px)}50%{opacity:1;transform:translateY(-4px)}}
+.evcoin{animation:evc 1.4s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes evc{50%{transform:translateY(-6px) scaleX(.2)}}
+.evbody{flex:1;text-align:left}
+.evtag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ec);font-weight:700;margin-bottom:4px}
+.evt h2{font-size:clamp(22px,3vw,30px);margin:0 0 6px;color:#fff;text-shadow:0 0 16px var(--eg)}
+.evd{color:#b9c8c7;font-size:15px;font-style:italic;margin:0 0 16px}
+.evo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.evc{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;text-align:left;padding:12px 14px;min-height:96px;height:auto;border-radius:12px;background:#182023;border:1px solid color-mix(in srgb,var(--ec) 45%,#2a3436);color:var(--ink);font-size:14px;font-weight:400;cursor:pointer;transition:transform .12s,border-color .12s,box-shadow .12s}
+.evc:hover:not(:disabled){transform:translateY(-2px);border-color:var(--ec);box-shadow:0 0 18px var(--eg)}
+.evc b{font-size:16px;color:#fff}
+.evc.lv{border-color:#2a3436;background:#141a1c}.evc.lv b{color:#cfd8d8}
+.evk{position:absolute;top:8px;right:10px;font-size:11px;color:#7c8b8b;border:1px solid #33403f;border-radius:5px;padding:0 5px}
+.eg{color:#5fe08a;font-weight:600;font-size:13.5px;line-height:1.35}
+.ec{color:#ff7a6b;font-weight:600;font-size:13.5px;line-height:1.35}
+.en{color:#8e9c9c;font-size:13.5px}
+.evc:disabled{opacity:.35;cursor:default}.evc.pk{opacity:1;border-color:var(--ec);box-shadow:0 0 22px var(--eg)}
+.evr{margin-top:12px;font-size:15px;color:#e8efe9;opacity:0;transition:opacity .25s}.evr.show{opacity:1;padding:10px 12px;border-radius:10px;background:rgba(95,224,138,.08);border:1px solid rgba(95,224,138,.3)}
+.evr.show.bad{background:rgba(255,122,107,.08);border-color:rgba(255,122,107,.35)}
+@media (max-width:640px){.evt{flex-direction:column;padding:16px;gap:12px}.evart{flex-basis:auto;width:150px}.evbody{text-align:center}.evo{grid-template-columns:1fr}.evc{min-height:0}}
 .card.cls{height:auto;min-height:280px}
 /* overlay */
 .ov{position:fixed;inset:0;z-index:50;display:flex;align-items:safe center;justify-content:center;overflow:auto;padding:24px 14px;
@@ -285,6 +311,8 @@ box-shadow:0 10px 26px rgba(0,0,0,.5);animation:deal .35s cubic-bezier(.2,1.4,.4
 .acctf input{font:inherit;font-size:17px;color:var(--ink);background:#0d1719;border:2px solid #2f4a4f;border-radius:10px;min-height:48px;padding:0 12px;text-align:center}
 .acctf input:focus-visible{outline:2px solid var(--rose)}.acctf button{min-height:48px;width:100%}.laterb{margin-top:8px;background:transparent;border-color:transparent;color:var(--dim)}
 button.mini{min-height:30px;padding:0 10px;font-size:12.5px;margin-left:4px}.acbox{margin-bottom:10px}
+.card .real{order:6;display:block;font-size:12.5px;font-weight:700;color:#5fe08a;line-height:1.25;margin-top:2px}@media(max-width:640px){.card .real{font-size:12px}}
+.spdg{align-items:center}.spdg button{min-width:40px;font-size:20px;font-weight:800;padding:0!important}.spdg span{min-width:56px;text-align:center;font-weight:800;font-size:16px}.spn{font-size:12.5px;color:var(--dim);white-space:nowrap}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -313,7 +341,7 @@ window.FIREBASE_CONFIG={
 <div class="game">
 <div class="frame"><canvas id="cv" width="960" height="400"></canvas><div id="ov" class="ov hidden"></div></div>
 <div class="bar">
-<div class="seg" role="group" aria-label="Velocidade"><button data-sp="1" class="on">1x</button><button data-sp="1.5">1,5x</button><button data-sp="2" disabled>2x</button><button data-sp="3" disabled>3x</button><button data-sp="4" disabled>4x</button><button data-sp="6" disabled>6x</button><button data-sp="8" disabled>8x</button><button data-sp="12" disabled>12x</button><button data-sp="16" disabled>16x</button></div>
+<div class="seg spdg" role="group" aria-label="Velocidade"><button id="spm" aria-label="Diminuir velocidade">−</button><span id="spv" aria-live="polite">1x</span><button id="spp" aria-label="Aumentar velocidade">+</button></div><span class="spn" id="spn"></span>
 <button id="spb" class="on" title="Habilidade especial da classe">Especial (Q)</button><button id="rollb" title="Esquiva: 0,6s invulnerável, recarga 4s">Esquivar (E)</button>
 <button id="pause">Pausar</button>
 <button id="hudb" title="Mostrar ou esconder atributos e sinergias na tela (H)">Ocultar atributos</button>
@@ -475,7 +503,7 @@ const maxHp=()=>Math.max(10,(100+lv('hp')*15)*(1+S.hpPct/100)*(1+achN()*.02)*(1+
 const luck=()=>S.luck+lv('luck')*4+le('e_luck')*10+(mut.luck?30:0);
 const eva=()=>Math.min(70,S.eva);
 const range=()=>{const w=wp();return w.rng*(1+S.range/(w.melee?200:100))};
-const UNLOCK=15,SPD=[[1,0],[1.5,0],[2,15],[3,22],[4,30],[6,40],[8,50],[12,65],[16,80]];
+const UNLOCK=15,SPD=[[1,0],[1.5,0],[2,15],[2.5,18],[3,22],[3.5,26],[4,30],[4.5,32],[5,35],[5.5,37],[6,40],[6.5,42],[7,45],[7.5,47],[8,50],[9,53],[10,57],[11,61],[12,65],[13,68],[14,72],[15,76],[16,80]];
 const xpNeed=l=>Math.floor(8*Math.pow(l,1.5));
 
 // ---------- itens ----------
@@ -673,11 +701,35 @@ fire:'Acertos podem gerar uma explosão em área que também queima por 2 segund
 poison:'Acertos podem envenenar. Cada acúmulo causa dano por segundo durante 4 segundos, até 10 acúmulos.'};
 const dpsEst=()=>atk()*aspd()*(1+S.multi)*(1+Math.min(1,S.crit/100)*(S.critD/100-1))*(1+S.double/100*.8);
 function rarePct(){const L=luck(),w=BW.map((b,i)=>i?b*(1+L*.02*i):b),t=w.reduce((a,b)=>a+b);return(w[3]+w[4]+w[5])/t*100}
+// ---------- valores reais das porcentagens ----------
+const nf=x=>fmt(x).replace('.',',');
+const enDmg=()=>2.2*Math.pow(1.11,Math.max(1,horde||1)-1)*Math.pow(threat(),.4);
+function realOf(k){switch(k){
+ case 'atkPct':case 'atkFlat':return[atk(),'de dano por golpe'];
+ case 'aspd':return[aspd(),'golpes por segundo',2];
+ case 'critD':return[atk()*S.critD/100,'de dano no golpe crítico'];
+ case 'ls':return[atk()*S.ls/100,'de vida roubada por golpe'];
+ case 'hpPct':return[maxHp(),'de vida máxima'];
+ case 'thorns':return[enDmg()*S.thorns/100,'de dano devolvido a cada golpe sofrido'];
+ case 'explode':return[atk()*S.explode/100,'de dano em cada explosão'];
+ case 'chain':return[S.chain?atk()*.7:0,'de dano por raio',0,true];
+ case 'double':return[S.double?atk()*.8:0,'de dano no golpe extra',0,true];
+ case 'xp':return[(1+(horde||1)*.35)*(1+S.xp/100)*(1+lv('xp')*.08),'de XP por inimigo'];
+ case 'armor':{const a=S.armor;return[a/(a+100)*100,'% a menos de dano recebido']}
+ case 'range':return[range(),'de alcance'];
+ case 'regen':return[S.regen,'de vida por segundo'];
+ case 'onKill':return[S.onKill,'de vida por abate'];
+ default:return null}}
+function realLine(o){if(o.sk||o.k.startsWith('u_'))return '';const b=realOf(o.k);if(!b)return '';
+ st[o.k]+=o.v;recalc();const a=realOf(o.k);st[o.k]-=o.v;recalc();const d=a[0]-b[0];
+ if(a[3]&&!b[0])return `golpe de ${nf(a[0])} ${a[1].replace('de dano ','').replace('no golpe extra','extra').replace('por raio','no raio')}`.replace('golpe de','golpes de');
+ if(Math.abs(d)<.01)return '';return `≈ +${a[2]?d.toFixed(a[2]).replace('.',','):nf(d)} ${a[1]}`}
+
 function metrics(k){const D=['DPS estimado',fmt(dpsEst())],a=S.armor;
  return{atkPct:[['Dano por golpe',fmt(atk())],D],atkFlat:[['Dano por golpe',fmt(atk())],D],aspd:[['Golpes por segundo',aspd().toFixed(2)],D],
  crit:[['Chance de crítico',fmt(Math.min(100,S.crit))+'%'],D],critD:[['Dano do crítico',fmt(S.critD)+'%'],D],eva:[['Esquiva',fmt(eva())+'%']],
  onKill:[['Vida por abate',fmt(S.onKill)],['Da sua vida máxima',(S.onKill/maxHp()*100).toFixed(1)+'%']],hpPct:[['Vida máxima',fmt(maxHp())]],
- regen:[['Vida por segundo',fmt(S.regen)],['Vida cheia em',S.regen?Math.round(maxHp()/S.regen)+'s':'nunca']],ls:[['Roubo de vida',fmt(S.ls)+'%'],['Cura estimada',fmt(dpsEst()*S.ls/100)+'/s']],
+ regen:[['Vida por segundo',fmt(S.regen)],['Vida cheia em',S.regen?Math.round(maxHp()/S.regen)+'s':'nunca']],ls:[['Roubo de vida',S.ls?`${fmt(S.ls)}% (${nf(atk()*S.ls/100)} por golpe)`:'0%'],['Cura estimada',fmt(dpsEst()*S.ls/100)+'/s']],
  armor:[['Armadura',fmt(a)],['Dano recebido reduzido',Math.round(a/(a+100)*100)+'%']],thorns:[['Dano devolvido',fmt(S.thorns)+'%']],range:[['Alcance',Math.round(range())]],
  luck:[['Sorte',fmt(luck())],['Chance de Épico ou melhor',rarePct().toFixed(1)+'%'],['Drop por inimigo',(dropChance()*100).toFixed(1)+'%']],
  xp:[['Bônus de XP',fmt(S.xp+lv('xp')*8)+'%']],soul:[['Bônus de almas',fmt(S.soul+lv('soul')*10)+'%']],double:[['Golpe duplo',fmt(S.double)+'%'],D],
@@ -820,24 +872,38 @@ function syncStart(){const el=document.getElementById('sth');if(!el)return;const
 function startDaily(){nextDaily=true;if(state!=='dead'&&state!=='pick'&&horde>0)die();newRun()}
 
 // ---------- eventos na estrada ----------
+const EVA={
+ bau:{c:'#b36bff',g:'rgba(160,80,255,.35)',tag:'Maldição',svg:`<svg viewBox="0 0 120 100"><defs><radialGradient id="eg1"><stop offset="0" stop-color="#c88bff" stop-opacity=".9"/><stop offset="1" stop-color="#6a1fbf" stop-opacity="0"/></radialGradient></defs><ellipse cx="60" cy="52" rx="56" ry="46" fill="url(#eg1)" class="evpulse"/><ellipse cx="60" cy="90" rx="40" ry="6" fill="#000" opacity=".45"/><rect x="24" y="48" width="72" height="40" rx="4" fill="#4a2a17" stroke="#1a0d05" stroke-width="2"/><path d="M24 50 Q60 18 96 50 Z" fill="#5c341c" stroke="#1a0d05" stroke-width="2"/><rect x="24" y="46" width="72" height="7" fill="#2c2f38"/><rect x="38" y="30" width="6" height="58" fill="#2c2f38"/><rect x="76" y="30" width="6" height="58" fill="#2c2f38"/><rect x="52" y="50" width="16" height="16" rx="2" fill="#c99a3a" stroke="#4b3510" stroke-width="2"/><circle cx="60" cy="57" r="2.5" fill="#1a0d05"/><path d="M57 58h6l-1.5 5h-3z" fill="#1a0d05"/><path d="M14 70 C24 62 30 74 40 66 M106 70 C96 62 90 74 80 66" stroke="#9a9aa8" stroke-width="3" fill="none" stroke-dasharray="4 3"/><circle cx="30" cy="30" r="2" fill="#e0b8ff" class="evsp"/><circle cx="92" cy="26" r="1.6" fill="#e0b8ff" class="evsp d2"/><circle cx="70" cy="14" r="1.4" fill="#e0b8ff" class="evsp d3"/></svg>`},
+ sant:{c:'#ffd166',g:'rgba(255,200,90,.30)',tag:'Bênção',svg:`<svg viewBox="0 0 120 100"><defs><radialGradient id="eg2"><stop offset="0" stop-color="#fff0b8" stop-opacity=".95"/><stop offset="1" stop-color="#ffb000" stop-opacity="0"/></radialGradient></defs><ellipse cx="60" cy="40" rx="52" ry="40" fill="url(#eg2)" class="evpulse"/><ellipse cx="60" cy="92" rx="38" ry="5" fill="#000" opacity=".45"/><rect x="34" y="78" width="52" height="12" fill="#6f6a62" stroke="#2a2824" stroke-width="2"/><rect x="42" y="70" width="36" height="10" fill="#8a847a" stroke="#2a2824" stroke-width="2"/><path d="M50 70 L52 40 Q60 30 68 40 L70 70 Z" fill="#a39d92" stroke="#2a2824" stroke-width="2"/><circle cx="60" cy="30" r="9" fill="#b3ada2" stroke="#2a2824" stroke-width="2"/><path d="M52 46 L40 36 M68 46 L80 36" stroke="#a39d92" stroke-width="6" stroke-linecap="round"/><circle cx="60" cy="30" r="15" fill="none" stroke="#ffe69a" stroke-width="2" opacity=".8"/><path d="M60 50 l4 6 -4 6 -4 -6z" fill="#ffe69a"/><path d="M38 84 q6 -6 12 0" stroke="#5c7a3a" stroke-width="3" fill="none"/></svg>`},
+ apos:{c:'#4fd6c4',g:'rgba(70,210,190,.28)',tag:'Sorte',svg:`<svg viewBox="0 0 120 100"><defs><radialGradient id="eg3"><stop offset="0" stop-color="#9ff5e8" stop-opacity=".8"/><stop offset="1" stop-color="#1a8f80" stop-opacity="0"/></radialGradient></defs><ellipse cx="60" cy="50" rx="54" ry="44" fill="url(#eg3)" class="evpulse"/><ellipse cx="60" cy="92" rx="34" ry="5" fill="#000" opacity=".45"/><path d="M40 92 L44 54 Q60 44 76 54 L80 92 Z" fill="#3b2d4f" stroke="#140f1c" stroke-width="2"/><circle cx="60" cy="40" r="11" fill="#e2b48c" stroke="#140f1c" stroke-width="2"/><path d="M44 32 h32 l-6 -4 h-20 z M50 28 l4 -14 h12 l4 14 z" fill="#1d1a24" stroke="#140f1c" stroke-width="1.5"/><path d="M54 44 q6 5 12 0" stroke="#140f1c" stroke-width="2" fill="none"/><path d="M76 62 L92 46" stroke="#e2b48c" stroke-width="6" stroke-linecap="round"/><g class="evcoin"><circle cx="96" cy="26" r="8" fill="#ffcf3f" stroke="#8a6410" stroke-width="2"/><text x="96" y="30" font-size="10" text-anchor="middle" fill="#8a6410" font-weight="700">$</text></g></svg>`}};
 const EVS={
- bau:{n:'Baú amaldiçoado',d:'Um baú pulsa com energia sombria. Dentro há algo valioso, mas tocar nele cobra um preço.',o:[['Abrir: item Épico ou melhor, mas -12% de vida máxima nesta corrida','open'],['Deixar para trás','leave']]},
- sant:{n:'Santuário esquecido',d:'Uma estátua antiga oferece uma bênção para esta corrida. Só uma.',o:[['Bênção da lâmina: +15% ataque total','atk'],['Bênção da pele: +15% vida máxima e cura total','hp']]},
- apos:{n:'Apostador da estrada',d:'Um viajante sorridente oferece uma aposta: metade do seu ouro, cara ou coroa.',o:[['Apostar metade do ouro (50%: dobra a aposta)','bet'],['Recusar','leave']]}};
-function openEvent(){const ks=Object.keys(EVS).filter(k=>k!=='apos'||(save.gold||0)>=20),k=ks[Math.floor(Math.random()*ks.length)],E=EVS[k];state='event';sfx('bell');
- ov.innerHTML=`<div class="pick evt"><h2>${E.n}</h2><p class="evd">${E.d}</p><div class="evo">${E.o.map(([t,a])=>`<button data-ev="${a}" class="${a==='leave'?'':'on'}">${t}</button>`).join('')}</div><p class="empty small" id="evm"></p></div>`;
+ bau:{n:'Baú amaldiçoado',d:'Um baú acorrentado pulsa com energia sombria. Dentro há algo valioso, mas tocar nele cobra um preço.',
+  o:()=>[{a:'open',t:'Abrir o baú',g:['Item Épico, Lendário ou Mítico'],c:[`−12% de vida máxima (≈ −${nf(maxHp()*12/(100+S.hpPct))} de vida) até o fim da corrida`]},
+   {a:'leave',t:'Deixar para trás',g:[],c:[],n:'Nada acontece. Você segue viagem.'}]},
+ sant:{n:'Santuário esquecido',d:'Uma estátua antiga oferece uma bênção para esta corrida. Só uma.',
+  o:()=>[{a:'atk',t:'Bênção da lâmina',g:[`+15% de ataque total (≈ +${nf(atk()*15/(100+S.atkPct))} de dano por golpe)`],c:[]},
+   {a:'hp',t:'Bênção da pele',g:[`+15% de vida máxima (≈ +${nf(maxHp()*15/(100+S.hpPct))} de vida)`,'Cura total agora'],c:[]}]},
+ apos:{n:'Apostador da estrada',d:'Um viajante sorridente gira uma moeda entre os dedos. Metade do seu ouro, cara ou coroa.',
+  o:()=>{const b=Math.floor((save.gold||0)/2);return[{a:'bet',t:'Apostar',g:[`50%: ganha +${b} de ouro`],c:[`50%: perde ${b} de ouro`]},
+   {a:'leave',t:'Recusar',g:[],c:[],n:`Você guarda seus ${save.gold||0} de ouro.`}]}}};
+function openEvent(k){const ks=Object.keys(EVS).filter(k=>k!=='apos'||(save.gold||0)>=20);if(!EVS[k])k=ks[Math.floor(Math.random()*ks.length)];const E=EVS[k],A=EVA[k];state='event';sfx('bell');
+ const op=E.o();
+ ov.innerHTML=`<div class="evt" style="--ec:${A.c};--eg:${A.g}"><div class="evart">${A.svg}</div><div class="evbody"><div class="evtag">Evento da estrada · ${A.tag} · Horda ${horde}</div><h2>${E.n}</h2><p class="evd">${E.d}</p>
+ <div class="evo">${op.map((o,i)=>`<button data-ev="${o.a}" class="evc${o.a==='leave'?' lv':''}"><span class="evk">${i+1}</span><b>${o.t}</b>${o.g.map(x=>`<span class="eg">▲ ${x}</span>`).join('')}${o.c.map(x=>`<span class="ec">▼ ${x}</span>`).join('')}${o.n?`<span class="en">${o.n}</span>`:''}</button>`).join('')}</div>
+ <div class="evr" id="evm"></div></div></div>`;
  ov.classList.remove('hidden');ov.querySelectorAll('[data-ev]').forEach(b=>b.onclick=()=>doEvent(b.dataset.ev));
  if(save.auto)setTimeout(()=>{if(state!=='event')return;doEvent(k==='sant'?'atk':k==='bau'&&hero.hp>maxHp()*.6?'open':'leave')},900);
  return true}
-function doEvent(a){if(state!=='event')return;let msg='';
- if(a==='open'){const it=makeItem(Math.max(3,rollR(0)),horde);save.inv.push(it);if(ipow(it)>ipow(save.eq[it.s])&&(save.aeqOn||save.auto))equipId(it.id);st.hpPct-=12;recalc();hero.hp=Math.min(hero.hp,maxHp());msg=`Você pegou ${it.n} (${R[it.r].n}).`;sfx('drop',it.r)}
- else if(a==='atk'){st.atkPct+=15;recalc();msg='+15% ataque total.';sfx('unlock')}
- else if(a==='hp'){st.hpPct+=15;recalc();hero.hp=maxHp();msg='+15% vida máxima e vida cheia.';sfx('pot')}
- else if(a==='bet'){const b=Math.floor((save.gold||0)/2);if(Math.random()<.5){save.gold+=b;msg=`Ganhou! +${b} ouro.`;sfx('buy')}else{save.gold-=b;msg=`Perdeu ${b} ouro.`;sfx('hurt')}}
+function doEvent(a){if(state!=='event')return;let msg='',col='';
+ if(a==='open'){const it=makeItem(Math.max(3,rollR(0)),horde);save.inv.push(it);if(ipow(it)>ipow(save.eq[it.s])&&(save.aeqOn||save.auto))equipId(it.id);st.hpPct-=12;recalc();hero.hp=Math.min(hero.hp,maxHp());msg=`Você pegou <b style="color:${R[it.r].c}">${it.n}</b> (${R[it.r].n}). A maldição pesa: vida máxima agora ${fmt(maxHp())}.`;sfx('drop',it.r)}
+ else if(a==='atk'){st.atkPct+=15;recalc();msg=`A lâmina brilha. Dano por golpe agora ${nf(atk())}.`;sfx('unlock')}
+ else if(a==='hp'){st.hpPct+=15;recalc();hero.hp=maxHp();msg=`Pele de pedra. Vida máxima ${fmt(maxHp())}, vida cheia.`;sfx('pot')}
+ else if(a==='bet'){const b=Math.floor((save.gold||0)/2);if(Math.random()<.5){save.gold+=b;msg=`Cara! Você ganhou <b style="color:#ffcf3f">+${b} de ouro</b>.`;sfx('buy')}else{save.gold-=b;col='bad';msg=`Coroa. Você perdeu ${b} de ouro.`;sfx('hurt')}}
  else msg='Você seguiu viagem.';
  if(a!=='leave')mEv('event');persist();renderPanels();
- const m=document.getElementById('evm');if(m)m.textContent=msg;ov.querySelectorAll('[data-ev]').forEach(b=>b.disabled=true);
- setTimeout(()=>{if(state==='event'){ov.classList.add('hidden');state='run'}},1300)}
+ ov.querySelectorAll('[data-ev]').forEach(b=>{b.disabled=true;if(b.dataset.ev===a)b.classList.add('pk')});
+ const m=document.getElementById('evm');if(m){m.innerHTML=msg;m.className='evr show '+col}
+ setTimeout(()=>{if(state==='event'){ov.classList.add('hidden');state='run'}},1700)}
 
 // ---------- missões semanais ----------
 const weekId=()=>Math.floor((Date.now()/864e5+3)/7);
@@ -919,7 +985,7 @@ function drawPick(){if(!pickSkill)tut('card','Escolha uma carta','3 cartas da me
  ov.innerHTML=`<div class="pick"><h2${pickSkill?' class="skh"':''}>${pickTitle}</h2><div class="cards">${offer.map((o,i)=>{const tg=o.sk?[SK[o.k].n,SK[o.k].c]:CAT[catOf(o.k)];return `<button class="card r${o.r}${o.sk?' skill':''}" style="--c:${R[o.r].c};--k:${tg[1]}" data-i="${i}">${o.r>=4?'<span class="shine"></span>':''}
  <span class="rib">${R[o.r].n}</span><span class="pips">${R.map((_,j)=>`<i class="${j<=o.r?'on':''}"></i>`).join('')}</span>
  <span class="med"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round">${GL[o.g]}</svg></span>
- <span class="txt"><b>${o.t}</b><span class="lab">${o.lab}</span></span><span class="val">${o.sk?o.vt:o.k.startsWith('u_')?'Único':'+'+o.v+o.u}</span><span class="tag">${tg[0]}</span><kbd>${i+1}</kbd></button>`}).join('')}</div>
+ <span class="txt"><b>${o.t}</b><span class="lab">${o.lab}</span>${realLine(o)?`<span class="real">${realLine(o)}</span>`:""}</span><span class="val">${o.sk?o.vt:o.k.startsWith('u_')?'Único':'+'+o.v+o.u}</span><span class="tag">${tg[0]}</span><kbd>${i+1}</kbd></button>`}).join('')}</div>
  <div class="info" id="cinfo">${matchMedia('(hover:hover)').matches?'Passe o mouse sobre uma carta para ver o efeito real.':'Toque numa carta para ver o efeito real. Toque de novo para escolher.'}</div>
  <button class="rr" id="rr" ${rerolls?'':'disabled'}>Trocar cartas (R) · ${rerolls}</button></div>`;
  ov.classList.remove('hidden');
@@ -955,7 +1021,7 @@ function startHorde(){
  if(boss)list.splice(Math.floor(n/2),0,'boss');
  let x=W+60;for(const k of list){spawn(k,x+(k==='boss'?60:0));x+=(k==='boss'?150:38+Math.random()*62)}
  banner={txt:boss?`Horda ${horde} · Chefe à frente`:`Horda ${horde}`,life:1.7,boss};if(horde===1)tut('h1','O herói anda e ataca sozinho','Aperte E para esquivar. Inimigos de longe atiram em você.');if(horde===3)tut('h3','Ao morrer você ganha almas','Gaste no Altar para ficar mais forte a cada corrida.');if(horde===10)tut('boss','Chefe à frente!','Quando aparecer o aviso vermelho, aperte E na hora certa.');sfx(boss?'boss':'horde');if(horde>1&&(horde-1)%25===0)banner={txt:`Horda ${horde} · ${bio().n}`,life:2.6,boss:false};
- save.unl=save.unl||{};for(const [v,req] of SPD)if(v>1&&horde>=req&&!save.unl[v]){save.unl[v]=1;persist();syncSpeed();banner={txt:`Velocidade ${v}x liberada`,life:2.4,boss:false};sfx('unlock')}
+ save.unl=save.unl||{};for(const [v,req] of SPD)if(v>1&&horde>=req&&!save.unl[v]){save.unl[v]=1;persist();syncSpeed();banner={txt:`Velocidade ${spTxt(v)} liberada`,life:2.4,boss:false};sfx('unlock')}
 }
 const AF={blind:{n:'Blindado',c:'#b8c4d0',d:'golpes causam 40% menos dano; sangramento, veneno e queimadura passam inteiros'},
 fast:{n:'Veloz',c:'#5fe0ff',d:'anda e ataca muito mais rápido'},regen:{n:'Regenerador',c:'#5fe08a',d:'recupera 3% da vida por segundo'},
@@ -1426,10 +1492,10 @@ function loop(now){
 
 // ---------- painéis ----------
 function renderStats(){
- const a=S.armor,rows=[['Ataque',fmt(atk())],['Vel. de ataque',aspd().toFixed(2)+'/s'],['Crítico',fmt(Math.min(100,S.crit))+'%'],['Dano crítico',fmt(S.critD)+'%'],
- ['Evasão',fmt(eva())+'%'],['Vida máxima',fmt(maxHp())],['Regeneração',fmt(S.regen)+'/s'],['Vida por abate',fmt(S.onKill)],['Roubo de vida',fmt(S.ls)+'%'],
- ['Armadura',`${fmt(a)} (−${Math.round(a/(a+100)*100)}%)`],['Espinhos',fmt(S.thorns)+'%'],['Alcance',Math.round(range())],['Projéteis',1+S.multi],['Perfuração',S.pierce],
- ['Golpe duplo',fmt(S.double)+'%'],['Explosão',fmt(S.explode)+'%'],['Raio',fmt(S.chain)+'%'],['Sorte',fmt(luck())],['Bônus de XP',fmt(S.xp)+'%'],['Segunda vida',S.revive],
+ const a=S.armor,rows=[['Ataque',fmt(atk())],['Vel. de ataque',aspd().toFixed(2)+'/s'],['Crítico',fmt(Math.min(100,S.crit))+'%'],['Dano crítico',`${fmt(S.critD)}% (${nf(atk()*S.critD/100)})`],
+ ['Evasão',fmt(eva())+'%'],['Vida máxima',fmt(maxHp())],['Regeneração',fmt(S.regen)+'/s'],['Vida por abate',fmt(S.onKill)],['Roubo de vida',S.ls?`${fmt(S.ls)}% (${nf(atk()*S.ls/100)} por golpe)`:'0%'],
+ ['Armadura',`${fmt(a)} (−${Math.round(a/(a+100)*100)}%)`],['Espinhos',S.thorns?`${fmt(S.thorns)}% (≈${nf(enDmg()*S.thorns/100)})`:'0%'],['Alcance',Math.round(range())],['Projéteis',1+S.multi],['Perfuração',S.pierce],
+ ['Golpe duplo',fmt(S.double)+'%'],['Explosão',S.explode?`${fmt(S.explode)}% (${nf(atk()*S.explode/100)})`:'0%'],['Raio',fmt(S.chain)+'%'],['Sorte',fmt(luck())],['Bônus de XP',fmt(S.xp)+'%'],['Segunda vida',S.revive],
  ['DPS estimado',fmt(dpsEst())]];
  document.getElementById('stats').innerHTML=rows.map(r=>`<div><span>${r[0]}</span><b>${r[1]}</b></div>`).join('');
 }
@@ -1460,16 +1526,21 @@ function renderPanels(){
  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const m=META.find(x=>x[0]===b.dataset.m),c=cost(m);if(save.souls<c||lv(m[0])>=m[5])return;
   save.souls-=c;save.m[m[0]]=lv(m[0])+1;sfx('buy');if(st)recalc();persist();renderPanels()});
 }
-function renderHow(){document.getElementById('how').innerHTML=`<h2 style="margin-top:30px">Como jogar</h2><div class="howg"><div class="hw" style="--c:#ffd34d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffd34d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.star}</svg><div><b>Cartas</b><p>Cada nível oferece 3 cartas. A raridade multiplica o efeito: uma Mítica vale 10 vezes uma Comum. Passe o mouse para ver o ganho real.</p></div></div><div class="hw" style="--c:#ffe14d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffe14d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.bolt}</svg><div><b>Habilidades</b><p>A cada 5 níveis: sangramento, gelo, fogo, raio ou veneno. Escolher a mesma de novo sobe o nível dela.</p></div></div><div class="hw" style="--c:#3d8bff"><svg viewBox="0 0 64 64" fill="none" stroke="#3d8bff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.sw}</svg><div><b>Itens e armas</b><p>Itens mudam a aparência do herói. Espada e machado batem de perto; arco e cajado atiram de longe. Nível maior é sempre melhor na mesma raridade.</p></div></div><div class="hw" style="--c:#ff6b6b"><svg viewBox="0 0 64 64" fill="none" stroke="#ff6b6b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.shield}</svg><div><b>Inimigos e elites</b><p>Arqueiros e xamãs atiram de longe. A partir da horda 4 surgem elites Blindado, Veloz, Regenerador e Gigante. Chefe a cada 10 hordas.</p></div></div><div class="hw" style="--c:#ffc61a"><svg viewBox="0 0 64 64" fill="none" stroke="#ffc61a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.drop}</svg><div><b>Ouro e mercador</b><p>Inimigos soltam ouro. Nas hordas terminadas em 5 e às vezes em outras, o mercador vende itens do nível da horda e poções.</p></div></div><div class="hw" style="--c:#e9846a"><svg viewBox="0 0 64 64" fill="none" stroke="#e9846a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.heart}</svg><div><b>Altar e Ameaça</b><p>Almas da morte compram melhorias permanentes. Altar e equipamento sobem a Ameaça, que fortalece os inimigos. Velocidades de 2x a 16x liberam conforme seu recorde: 2x na horda 15, 3x na 22, 4x na 30, 6x na 40, 8x na 50, 12x na 65 e 16x na 80.</p></div></div></div><p class="empty" style="margin-top:14px">Com recorde alto, escolha começar mais adiante (até metade do recorde): as hordas puladas entregam XP e ouro na hora. A partir da horda 30, os inimigos ficam bem mais fortes e as elites mais comuns. Atalhos: Q especial da classe, E esquiva, H mostra ou esconde atributos na tela, I mochila, T atributos, A altar, 1 a 4 escolhem cartas, R troca as cartas, espaço pausa.</p>`}
+function renderHow(){document.getElementById('how').innerHTML=`<h2 style="margin-top:30px">Como jogar</h2><div class="howg"><div class="hw" style="--c:#ffd34d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffd34d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.star}</svg><div><b>Cartas</b><p>Cada nível oferece 3 cartas. A raridade multiplica o efeito: uma Mítica vale 10 vezes uma Comum. Passe o mouse para ver o ganho real.</p></div></div><div class="hw" style="--c:#ffe14d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffe14d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.bolt}</svg><div><b>Habilidades</b><p>A cada 5 níveis: sangramento, gelo, fogo, raio ou veneno. Escolher a mesma de novo sobe o nível dela.</p></div></div><div class="hw" style="--c:#3d8bff"><svg viewBox="0 0 64 64" fill="none" stroke="#3d8bff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.sw}</svg><div><b>Itens e armas</b><p>Itens mudam a aparência do herói. Espada e machado batem de perto; arco e cajado atiram de longe. Nível maior é sempre melhor na mesma raridade.</p></div></div><div class="hw" style="--c:#ff6b6b"><svg viewBox="0 0 64 64" fill="none" stroke="#ff6b6b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.shield}</svg><div><b>Inimigos e elites</b><p>Arqueiros e xamãs atiram de longe. A partir da horda 4 surgem elites Blindado, Veloz, Regenerador e Gigante. Chefe a cada 10 hordas.</p></div></div><div class="hw" style="--c:#ffc61a"><svg viewBox="0 0 64 64" fill="none" stroke="#ffc61a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.drop}</svg><div><b>Ouro e mercador</b><p>Inimigos soltam ouro. Nas hordas terminadas em 5 e às vezes em outras, o mercador vende itens do nível da horda e poções.</p></div></div><div class="hw" style="--c:#e9846a"><svg viewBox="0 0 64 64" fill="none" stroke="#e9846a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.heart}</svg><div><b>Altar e Ameaça</b><p>Almas da morte compram melhorias permanentes. Altar e equipamento sobem a Ameaça, que fortalece os inimigos. Velocidade: use os botões − e + (ou as teclas − e +). 1x e 1,5x já vêm liberadas; as outras, de 2x até 16x, liberam conforme seu recorde, de 2x na horda 15 até 16x na horda 80.</p></div></div></div><p class="empty" style="margin-top:14px">Com recorde alto, escolha começar mais adiante (até metade do recorde): as hordas puladas entregam XP e ouro na hora. A partir da horda 30, os inimigos ficam bem mais fortes e as elites mais comuns. Atalhos: Q especial da classe, E esquiva, H mostra ou esconde atributos na tela, I mochila, T atributos, A altar, 1 a 4 escolhem cartas, R troca as cartas, espaço pausa.</p>`}
 function renderLegend(){renderHow();
  const sum=BW.reduce((a,b)=>a+b);
  document.getElementById('legend').innerHTML=R.map((r,i)=>`<div class="leg" style="--c:${r.c}"><b>${r.n}</b><span class="pips">${R.map((_,j)=>`<i class="${j<=i?'on':''}"></i>`).join('')}</span><span>${r.m}x de força<br>${(BW[i]/sum*100).toFixed(BW[i]<1?1:0)}% sem sorte</span></div>`).join('');
 }
 
-function syncSpeed(){save.unl=save.unl||{};if(save.sp2)save.unl[2]=1;
- for(const [v,req] of SPD){if(save.best>=req)save.unl[v]=1;const b=document.querySelector(`[data-sp="${v}"]`);if(!b||v===1)continue;const ok=!!save.unl[v];b.disabled=!ok;b.textContent=ok?String(v).replace('.',',')+'x':`${String(v).replace('.',',')}x (h${req})`;b.title=ok?'':`Libera ao chegar à horda ${req}`}}
-function setSpeed(v){const b=document.querySelector(`[data-sp="${v}"]`);if(!b||b.disabled)v=1;speed=v;save.spd=v;persist();document.querySelectorAll('[data-sp]').forEach(x=>x.classList.toggle('on',+x.dataset.sp===v))}
-document.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{if(!b.disabled)setSpeed(+b.dataset.sp)});
+const spTxt=v=>String(v).replace('.',',')+'x';
+const spOpen=()=>SPD.filter(([v])=>v===1||save.unl[v]).map(([v])=>v);
+function syncSpeed(){save.unl=save.unl||{};if(save.sp2)save.unl[2]=1;for(const [v,req] of SPD)if(save.best>=req)save.unl[v]=1;
+ const op=spOpen(),nx=SPD.find(([v])=>!save.unl[v]&&v!==1),i=op.indexOf(speed);
+ const v1=document.getElementById('spv');if(!v1)return;v1.textContent=spTxt(speed);document.getElementById('spm').disabled=i<=0;document.getElementById('spp').disabled=i>=op.length-1;
+ document.getElementById('spn').textContent=nx?`próxima: ${spTxt(nx[0])} na horda ${nx[1]}`:'todas liberadas'}
+function setSpeed(v){if(!spOpen().includes(v))v=1;speed=v;save.spd=v;persist();syncSpeed()}
+document.getElementById('spm').onclick=()=>{const op=spOpen(),i=op.indexOf(speed);if(i>0)setSpeed(op[i-1])};
+document.getElementById('spp').onclick=()=>{const op=spOpen(),i=op.indexOf(speed);if(i<op.length-1)setSpeed(op[i+1])};
 const pb=document.getElementById('pause');pb.onclick=()=>{paused=!paused;pb.textContent=paused?'Continuar':'Pausar';pb.classList.toggle('on',paused)};
 document.getElementById('restart').onclick=()=>{if(state!=='dead')die();newRun()};
 const au=document.getElementById('auto');au.checked=!!save.auto;au.onchange=()=>{save.auto=au.checked;persist();if(au.checked&&state==='pick'&&!pickTitle.startsWith('Bênção'))choose(autoPick())};
@@ -1608,8 +1679,11 @@ hb.onclick=()=>{save.hudMin=!save.hudMin;persist();syncHud()};
 addEventListener('keydown',e=>{
  if((e.key==='e'||e.key==='E')&&e.target.tagName!=='INPUT'){roll();return}
  if((e.key==='q'||e.key==='Q')&&e.target.tagName!=='INPUT'){special();return}
+ if((e.key==='+'||e.key==='=')&&e.target.tagName!=='INPUT'){document.getElementById('spp').click();return}
+ if(e.key==='-'&&e.target.tagName!=='INPUT'){document.getElementById('spm').click();return}
  if((e.key==='h'||e.key==='H')&&e.target.tagName!=='INPUT'){hb.click();return}
  if(e.target.tagName!=='INPUT'&&state!=='pick'){const tk={i:'eq',t:'st',a:'al',r:'rk'}[e.key.toLowerCase()];if(tk){setTab(tk);openDock()}}
+ if(state==='event'){const b=ov.querySelectorAll('[data-ev]')[+e.key-1];if(b&&!b.disabled){b.click();e.preventDefault()}return}
  if(state==='pick'&&ov.querySelector('[data-c]')){const b=ov.querySelectorAll('[data-c]')[+e.key-1];if(b){b.click();e.preventDefault()}return}
  if(state==='pick'&&offer){const n=+e.key;if(n>=1&&n<=offer.length){choose(n-1);e.preventDefault()}if(e.key==='r'||e.key==='R')reroll()}
  if(e.key===' '&&e.target===document.body){e.preventDefault();pb.click()}
