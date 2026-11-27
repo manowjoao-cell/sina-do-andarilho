@@ -273,6 +273,10 @@ box-shadow:0 10px 26px rgba(0,0,0,.5);animation:deal .35s cubic-bezier(.2,1.4,.4
 .ifilt .tg:first-of-type{margin-top:6px}
 .sth{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--dim)}.sth select{font:inherit;font-size:14px;color:var(--ink);background:#0d1719;border:2px solid #2f4a4f;border-radius:10px;min-height:38px;padding:0 6px}
 .nickov{max-width:520px;margin:auto}.nickbig{display:flex!important;gap:8px;margin-top:14px}.nickbig input{flex:1;font-size:18px!important;min-height:52px!important;text-align:center}.nickbig button{min-height:52px;padding:0 22px}
+.acct{margin:4px auto 10px;display:inline-flex}.acctf{display:grid!important;gap:8px;max-width:380px;margin:0 auto}
+.acctf input{font:inherit;font-size:17px;color:var(--ink);background:#0d1719;border:2px solid #2f4a4f;border-radius:10px;min-height:48px;padding:0 12px;text-align:center}
+.acctf input:focus-visible{outline:2px solid var(--rose)}.acctf button{min-height:48px;width:100%}.laterb{margin-top:8px;background:transparent;border-color:transparent;color:var(--dim)}
+button.mini{min-height:30px;padding:0 10px;font-size:12.5px;margin-left:4px}.acbox{margin-bottom:10px}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -345,6 +349,7 @@ window.FIREBASE_CONFIG={
 <h3>Cartas desta corrida</h3><div class="deck" id="deck"></div>
 </div>
 <div class="tab" id="tab-rk" hidden>
+<div class="acbox" id="acbox"></div>
 <div class="rkme" id="rkme"><p class="empty">Carregando ranking...</p></div>
 <div class="daily" id="dailyb"></div>
 <div class="seg rkseg" role="group" aria-label="Tipo de ranking"><button data-rkm="g" class="on">Geral</button><button data-rkm="d">Diário de hoje</button></div>
@@ -440,7 +445,7 @@ let save={souls:0,best:0,m:{},auto:false,inv:[],eq:{},nid:0,gold:0};
 try{const s=JSON.parse(localStorage.getItem('estrada-cartas-v1'));if(s)save=Object.assign(save,s)}catch(e){}
 if(!Array.isArray(save.inv))save.inv=[];if(!save.eq||typeof save.eq!=='object')save.eq={};
 const lv=k=>save.m[k]||0;
-const persist=()=>{try{localStorage.setItem('estrada-cartas-v1',JSON.stringify(save))}catch(e){}};
+const persist=()=>{save.t=Date.now();try{localStorage.setItem('estrada-cartas-v1',JSON.stringify(save))}catch(e){}};
 
 let lastBlow=null,rs={dmg:{},taken:{},ht:{}},runT=0,toast=null,warn=null,shopSeen=false,stock=[],shopT=0,S={},lt=[],epr=[],sel=null,st,hero,en,pr,pa,tx,fx,ex,horde,spawnQ,spawnT,clearT,state,speed=1,paused=false,t=0,shake=0,banner=null,dist,pq=[],sk={},pickSkill=false,offer,rerolls,picked,kills,bossKills,scroll=0,bgX=0,flash=0;
 const S0=()=>({u_tenth:0,u_rollfire:0,u_rage:0,u_vamp:0,u_cleave:0,u_volley:0,u_arcane:0,atkPct:0,atkFlat:0,aspd:0,crit:5,critD:150,eva:0,onKill:0,hpPct:0,regen:0,ls:0,armor:0,thorns:0,range:0,luck:0,xp:0,soul:0,double:0,pierce:0,explode:0,chain:0,multi:0,revive:0});
@@ -921,7 +926,7 @@ function aggro(e){if(e.ag||TY[e.k].rng)return;e.ag=1;addTx(e.x,e.y-e.r*2-24,'!',
 function shoot(e){sfx('eshoot');const T=TY[e.k],sx=e.x-12,sy=e.y-e.r*1.6,dx=HX-sx,dy=(GY-35)-sy,L=Math.hypot(dx,dy)||1,v=T.pk==='arrow'?430:290;
  epr.push({x:sx,y:sy,vx:dx/L*v,vy:dy/L*v,d:e.dmg,src:e,k:T.pk})}
 function startHorde(){
- horde++;if(horde===20&&!runFlags.h20){runFlags.h20=1;mEv('h20')}if(horde===15&&!runFlags.h15&&!(synCount().de>0)){runFlags.h15=1;mEv('h15nd')}const boss=horde%10===0,n=Math.min(4+Math.floor(horde*.9),34);
+ horde++;if(horde>1)snapRun();if(horde===20&&!runFlags.h20){runFlags.h20=1;mEv('h20')}if(horde===15&&!runFlags.h15&&!(synCount().de>0)){runFlags.h15=1;mEv('h15nd')}const boss=horde%10===0,n=Math.min(4+Math.floor(horde*.9),34);
  const list=[];for(let i=0;i<n;i++){const p=['slime','slime'];if(horde>=2)p.push('arq');if(horde>=3)p.push('gob','gob');if(horde>=4)p.push('bat');if(horde>=6)p.push('skel');if(horde>=7)p.push('mago');list.push(p[Math.floor(Math.random()*p.length)])}
  if(boss)list.splice(Math.floor(n/2),0,'boss');
  let x=W+60;for(const k of list){spawn(k,x+(k==='boss'?60:0));x+=(k==='boss'?150:38+Math.random()*62)}
@@ -998,7 +1003,18 @@ const TYN={slime:'Gosma',gob:'Goblin',skel:'Esqueleto',bat:'Morcego',arq:'Goblin
 const HOW={contato:'ataque corpo a corpo',soco:'golpe de perto',arrow:'flecha',orb:'orbe mágico',fire:'bola de fogo',slam:'golpe esmagador'};
 function rows(o,col){const e=Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,6),tot=e.reduce((a,b)=>a+b[1],0)||1;
  return e.length?e.map(([k,v])=>`<div class="dr"><span>${k}</span><i><b style="width:${v/tot*100}%;background:${col}"></b></i><em>${fmt(v)} · ${Math.round(v/tot*100)}%</em></div>`).join(''):'<p class="empty">Nada registrado.</p>'}
-function die(){sfx('death');
+// ---------- salvar a corrida em andamento ----------
+function snapRun(){if(state==='dead'||!hero||horde<1)return;
+ save.run={v:1,t:Date.now(),st,sk,picked,hero:{hp:hero.hp,lvl:hero.lvl,xp:hero.xp},horde,kills,bossKills,dist,runT,runCls,mut,runDaily,rerolls,runFlags,rs,pq};
+ if(horde>(save.best||0)){save.best=horde;save.cbest=Math.max(save.cbest??0,horde)}persist()}
+function restoreRun(){const r=save.run;if(!r||r.v!==1||!r.hero||!r.st)return false;
+ try{st=Object.assign(S0(),r.st);sk=r.sk||{};picked=r.picked||[];runCls=r.runCls||runCls;mut=r.mut||{};runDaily=!!r.runDaily;rerolls=r.rerolls||0;runFlags=r.runFlags||{};
+  rs=r.rs||{dmg:{},taken:{},ht:{}};kills=r.kills||0;bossKills=r.bossKills||0;dist=r.dist||0;runT=r.runT||0;recalc();
+  Object.assign(hero,{lvl:r.hero.lvl,xp:r.hero.xp});hero.hp=Math.min(maxHp(),Math.max(1,r.hero.hp));
+  horde=Math.max(0,(r.horde||1)-1);en=[];spawnQ=[];epr=[];pr=[];clearT=.8;pq=r.pq||[];
+  state='run';ov.classList.add('hidden');renderPanels();tip('Corrida restaurada',`Você voltou para a horda ${r.horde}.`,4);return true}catch(e){save.run=null;return false}}
+addEventListener('pagehide',snapRun);document.addEventListener('visibilitychange',()=>{if(document.hidden)snapRun()});setInterval(()=>{if(state==='run')snapRun()},10000);
+function die(){sfx('death');save.run=null;setTimeout(()=>cloudSave(true),300);
  state='dead';const g=Math.floor((2*Math.pow(horde,1.4)+bossKills*10+kills/20)*(1+S.soul/100)*(1+lv('soul')*.1)*(1+le('e_soul')*.25));
  save.souls+=g;save.best=Math.max(save.best,horde);setTimeout(syncStart,0);save.cbest=Math.max(save.cbest??save.best,horde);if(runDaily){mEv('daily');rkDaily(horde)}
  const bi=Object.values(save.eq).filter(Boolean).sort((a,b)=>ipow(b)-ipow(a))[0],hh=Object.entries(rs.ht).sort((a,b)=>b[1]-a[1])[0];
@@ -1441,24 +1457,66 @@ async function rkWrite(force){
 }
 function rkSubmit(){rkWrite(false)}
 let dbReady=null;
+
+// ---------- conta: nick + senha e salvamento na nuvem ----------
+const acctEmail=n=>'n'+Array.from(new TextEncoder().encode(n.trim().toLowerCase())).map(b=>b.toString(16).padStart(2,'0')).join('')+'@jogadores.sina-do-andarilho.app';
+const isAcct=()=>!!(window.firebase&&firebase.apps.length&&firebase.auth().currentUser&&!firebase.auth().currentUser.isAnonymous);
+const authMsg=e=>({'auth/wrong-password':'Senha incorreta.','auth/invalid-credential':'Nick ou senha incorretos.','auth/invalid-login-credentials':'Nick ou senha incorretos.','auth/user-not-found':'Não existe conta com esse nick.',
+ 'auth/weak-password':'A senha precisa de pelo menos 6 caracteres.','auth/email-already-in-use':'Esse nick já tem conta. Use "Já tenho conta".','auth/credential-already-in-use':'Esse nick já tem conta. Use "Já tenho conta".',
+ 'auth/too-many-requests':'Muitas tentativas. Espere alguns minutos.','auth/operation-not-allowed':'O login com senha ainda não foi ativado no servidor do jogo.','auth/network-request-failed':'Sem conexão. Tente de novo.'})[e&&e.code]||'Não deu certo agora. Tente de novo.';
+let cloudT=0,cloudBusy=false;
+async function cloudSave(force){if(!DB||!isAcct()||cloudBusy)return;if(!force&&Date.now()-cloudT<60000)return;cloudBusy=true;
+ try{snapRun();const data=JSON.stringify(save);if(data.length<900000){await DB.collection('saves').doc(UID).set({data,t:save.t||Date.now(),nick:save.nick||''});cloudT=Date.now()}}catch(e){console.warn('save',e)}cloudBusy=false}
+async function cloudLoad(){if(!DB||!UID)return false;try{const d=await DB.collection('saves').doc(UID).get();if(!d.exists)return false;const c=d.data();
+ if(c&&c.data&&(c.t||0)>(save.t||0)-5000){const ns=JSON.parse(c.data);save=Object.assign({souls:0,best:0,m:{},auto:false,inv:[],eq:{},nid:0,gold:0},ns);persist();cloudT=Date.now();return true}}catch(e){console.warn('load',e)}return false}
+setInterval(()=>cloudSave(false),60000);addEventListener('pagehide',()=>cloudSave(true));
+function reloadAll(){location.reload()}
+function acctUI(){const b=document.getElementById('acbox');if(!b)return;if(!DB){b.innerHTML='';return}
+ if(isAcct()){b.innerHTML=`<p class="empty small">Conta protegida por senha · progresso salvo na nuvem. <button id="cvb" class="mini">Salvar agora</button> <button id="lob" class="mini">Sair da conta</button></p>`;
+  document.getElementById('cvb').onclick=async e=>{e.target.textContent='Salvando...';await cloudSave(true);e.target.textContent='Salvo'};
+  let arm=0;document.getElementById('lob').onclick=async e=>{if(Date.now()>arm){arm=Date.now()+3000;e.target.textContent='Confirmar saída?';return}await cloudSave(true);await firebase.auth().signOut();try{localStorage.removeItem('estrada-cartas-v1')}catch(x){}reloadAll()}}
+ else if(save.nick){b.innerHTML=`<p class="empty small" style="color:#ffd34d">Seu progresso está salvo só neste aparelho. <button id="pwb" class="mini on">Criar senha</button> <button id="lgb" class="mini">Entrar em outra conta</button></p>`;
+  document.getElementById('pwb').onclick=()=>openNick('protect');document.getElementById('lgb').onclick=()=>openNick('login')}
+ else b.innerHTML=''}
 async function claimNick(n){if(!DB||!UID)return true;const nl=n.toLowerCase(),ref=DB.collection('nicks').doc(nl.replace(/[^a-z0-9à-ÿ_-]/g,'_'));
  try{return await DB.runTransaction(async tx=>{const d=await tx.get(ref);if(d.exists&&d.data().uid!==UID)return false;tx.set(ref,{uid:UID,nick:n});return true})}catch(e){return false}}
-function openNick(){if(save.nick)return;state='nick';
- ov.innerHTML=`<div class="pick nickov"><h2>Bem-vindo, andarilho</h2><p class="evd">Escolha seu nick para jogar. É ele que aparece no ranking, e não pode ser igual ao de outro jogador.</p>
- <form id="nickm0" class="nickf nickbig"><input id="nicki0" maxlength="16" placeholder="Seu nick (3 a 16 caracteres)" autocomplete="off" autofocus><button class="on">Começar</button></form><p class="empty small" id="nickmsg0"></p></div>`;
- ov.classList.remove('hidden');const f=document.getElementById('nickm0'),i=document.getElementById('nicki0'),m=document.getElementById('nickmsg0');setTimeout(()=>i.focus(),50);
- f.onsubmit=async ev=>{ev.preventDefault();const n=i.value.trim().replace(/\s+/g,' ');if(!nickOk(n)){m.textContent='Use de 3 a 16 caracteres: letras, números, espaço, _ ou -.';return}
-  m.textContent='Verificando se o nick está livre...';f.querySelector('button').disabled=true;
+function openNick(mode){if(save.nick&&!mode)return;state='nick';mode=mode||'new';
+ const nw=mode==='new',lg=mode==='login',pw=mode==='protect';
+ ov.innerHTML=`<div class="pick nickov"><h2>${pw?'Proteja seu progresso':'Bem-vindo, andarilho'}</h2>
+ <p class="evd">${pw?`Crie uma senha para o nick <b>${escH(save.nick)}</b>. Assim seu progresso fica salvo na nuvem e você continua em qualquer aparelho.`:lg?'Entre com seu nick e senha para continuar seu progresso neste aparelho.':'Escolha seu nick e uma senha. O nick aparece no ranking e não pode ser igual ao de outro jogador; com a senha, seu progresso fica salvo na nuvem.'}</p>
+ ${pw?'':`<div class="seg acct" role="group"><button data-am="new" class="${nw?'on':''}">Criar conta</button><button data-am="login" class="${lg?'on':''}">Já tenho conta</button></div>`}
+ <form id="nickm0" class="nickf acctf">${pw?'':`<input id="nicki0" maxlength="16" placeholder="Nick (3 a 16 caracteres)" autocomplete="username">`}
+ <input id="pw0" type="password" minlength="6" placeholder="Senha (mínimo 6 caracteres)" autocomplete="${lg?'current-password':'new-password'}">
+ ${lg?'':`<input id="pw1" type="password" placeholder="Repita a senha" autocomplete="new-password">`}
+ <button class="on">${pw?'Salvar senha':lg?'Entrar':'Começar'}</button></form><p class="empty small" id="nickmsg0"></p>
+ ${pw?'<button id="later" class="laterb">Agora não</button>':''}
+ <p class="empty small" style="margin-top:8px">Guarde sua senha: não há como recuperá-la.</p></div>`;
+ ov.classList.remove('hidden');ov.querySelectorAll('[data-am]').forEach(b=>b.onclick=()=>openNick(b.dataset.am));
+ const lb=document.getElementById('later');if(lb)lb.onclick=()=>{save.pwLater=Date.now();persist();closeNick(true)};
+ const f=document.getElementById('nickm0'),i=document.getElementById('nicki0'),p0=document.getElementById('pw0'),p1=document.getElementById('pw1'),m=document.getElementById('nickmsg0'),btn=f.querySelector('button');
+ setTimeout(()=>(i||p0).focus(),50);
+ f.onsubmit=async ev=>{ev.preventDefault();const n=pw?save.nick:i.value.trim().replace(/\s+/g,' ');
+  if(!nickOk(n)){m.textContent='Use de 3 a 16 caracteres: letras, números, espaço, _ ou -.';return}
+  if(p0.value.length<6){m.textContent='A senha precisa de pelo menos 6 caracteres.';return}
+  if(p1&&p1.value!==p0.value){m.textContent='As senhas não são iguais.';return}
+  btn.disabled=true;m.textContent=lg?'Entrando...':'Verificando...';
   try{await Promise.race([dbReady,new Promise(r=>setTimeout(r,6000))])}catch(e){}
-  if(DB){try{const q=await DB.collection('ranking').where('nickL','==',n.toLowerCase()).limit(5).get();if(q.docs.some(d=>d.id!==UID)){m.textContent='Esse nick já está em uso. Escolha outro.';f.querySelector('button').disabled=false;i.focus();return}}
-   catch(e){m.textContent='Não consegui verificar agora. Tente de novo.';f.querySelector('button').disabled=false;return}}
-  if(DB&&!(await claimNick(n))){m.textContent='Esse nick já está em uso. Escolha outro.';f.querySelector('button').disabled=false;return}
-  save.nick=n;persist();if(DB)await rkWrite(true);closeNick()}}
-function closeNick(){if(state!=='nick')return;ov.classList.add('hidden');state='run';rkRender();tip(`Boa viagem, ${save.nick}!`,DB?'Seu recorde entra no ranking ao fim de cada corrida.':'O ranking está fora do ar agora, mas você pode jogar normalmente.');
+  if(!DB){if(lg){m.textContent='Sem conexão com o servidor agora.';btn.disabled=false;return}save.nick=n;persist();closeNick();return}
+  try{
+   if(lg){const keep=JSON.stringify(save);const cred=await firebase.auth().signInWithEmailAndPassword(acctEmail(n),p0.value);UID=cred.user.uid;
+    const got=await cloudLoad();if(!got){save=JSON.parse(keep);save.nick=n;persist();await cloudSave(true)}m.textContent='Bem-vindo de volta! Carregando...';setTimeout(reloadAll,600);return}
+   if(!pw){const q=await DB.collection('ranking').where('nickL','==',n.toLowerCase()).limit(5).get();if(q.docs.some(d=>d.id!==UID)){m.textContent='Esse nick já está em uso. Escolha outro, ou use "Já tenho conta".';btn.disabled=false;return}
+    if(!(await claimNick(n))){m.textContent='Esse nick já está em uso. Escolha outro, ou use "Já tenho conta".';btn.disabled=false;return}}
+   const cr=firebase.auth.EmailAuthProvider.credential(acctEmail(n),p0.value);await firebase.auth().currentUser.linkWithCredential(cr);
+   save.nick=n;save.acc=1;persist();await rkWrite(true);await cloudSave(true);closeNick(pw)}
+  catch(e){if(e&&e.code==='auth/operation-not-allowed'&&!lg){save.nick=n;persist();await rkWrite(true);closeNick(pw);return}m.textContent=authMsg(e);btn.disabled=false}}}
+function closeNick(quiet){if(state!=='nick')return;ov.classList.add('hidden');state='run';rkRender();acctUI();if(quiet)return;tip(`Boa viagem, ${save.nick}!`,DB?'Seu recorde entra no ranking ao fim de cada corrida.':'O ranking está fora do ar agora, mas você pode jogar normalmente.');
  if(!save.auto&&Object.values(CLS).filter(c=>c.ok()).length>1)openClass()}
 (async()=>{
  let rs_;dbReady=new Promise(r=>rs_=r);
- try{if(window.FIREBASE_CONFIG&&window.firebase){firebase.initializeApp(window.FIREBASE_CONFIG);const cred=await firebase.auth().signInAnonymously();UID=cred.user.uid;DB=firebase.firestore()}}catch(e){console.warn('Firebase',e);DB=null;UID=null}
+ try{if(window.FIREBASE_CONFIG&&window.firebase){firebase.initializeApp(window.FIREBASE_CONFIG);const A=firebase.auth();
+  let u=await new Promise(r=>{const un=A.onAuthStateChanged(x=>{un();r(x)})});if(!u)u=(await A.signInAnonymously()).user;UID=u.uid;DB=firebase.firestore();
+  if(!u.isAnonymous){await cloudLoad();}}}catch(e){console.warn('Firebase',e);DB=null;UID=null}
  rs_();
  if(!DB){rkMe('<p class="empty">O ranking está fora do ar no momento. Você pode jogar normalmente; seu recorde fica salvo neste aparelho.</p>');document.getElementById('rktab').hidden=true;return}
  const tm=setTimeout(()=>{document.getElementById('rkmsg').textContent='O ranking está demorando para responder. Os dados podem estar desatualizados.'},10000);
@@ -1489,7 +1547,8 @@ addEventListener('keydown',e=>{
  if(state==='pick'&&offer){const n=+e.key;if(n>=1&&n<=offer.length){choose(n-1);e.preventDefault()}if(e.key==='r'||e.key==='R')reroll()}
  if(e.key===' '&&e.target===document.body){e.preventDefault();pb.click()}
 });
-renderLegend();syncSpeed();syncStart();document.getElementById('sth').onchange=e=>{save.startH=+e.target.value;persist()};setSpeed(save.spd||1);if(sweepInv())persist();wk();newRun();renderDaily();offline();openNick();requestAnimationFrame(loop);
+renderLegend();syncSpeed();syncStart();document.getElementById('sth').onchange=e=>{save.startH=+e.target.value;persist()};setSpeed(save.spd||1);if(sweepInv())persist();wk();newRun();if(save.run&&save.nick)restoreRun();
+dbReady&&dbReady.then(()=>{acctUI();if(DB&&save.nick&&!isAcct()&&state==='run'&&!(save.pwLater>Date.now()-864e5*3))openNick('protect')});renderDaily();offline();openNick();requestAnimationFrame(loop);
 }
 </script>
 <footer class="band foot"><div class="wrap">Seu progresso fica salvo neste navegador. Atualizações do jogo chegam com F5 (às vezes Ctrl+F5).</div></footer>
