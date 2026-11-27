@@ -461,6 +461,7 @@ label.sth.mi{justify-content:space-between;color:#d7e3e2}label.sth.mi select{min
 .rupb.rolling{animation:rupr .25s linear infinite}
 @keyframes rupr{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
 .rupw{margin-top:4px}
+@media (min-width:700px){.sgrid{display:flex!important;flex-wrap:wrap;justify-content:center}.sgrid>.scard{flex:0 1 200px;min-width:170px}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -944,7 +945,7 @@ const price=it=>it.pr??pBase(it);
 const potP=()=>8+horde*2;
 function openShop(){
  if(mut.noshop)return false;
- const st0=[];for(let i=0;i<4;i++)st0.push(makeItem(Math.max(rollR(0),i===0?1:0),horde));
+ const st0=[];for(let i=0;i<6;i++)st0.push(makeItem(Math.max(rollR(0),i===0?1:0),horde));
  if(!st0.some(it=>better(it)))return false;
  {const g0=save.gold||0;for(const it of st0)it.pr=Math.round(pBase(it)+g0*GFR[it.r])}stock=st0;state='shop';shopT=25;sfx('bell');drawShop();if(save.auto)setTimeout(autoShop,900);return true;
 }
@@ -958,7 +959,7 @@ function drawShop(){
   <button class="buy" data-buy="${i}" ${it.sold||bought||g<price(it)?'disabled':''}>${it.sold?'Comprado':bought?'Limite: 1 item':g<price(it)?`${price(it)} ouro · faltam ${price(it)-g}`:price(it)+' ouro'}</button></div>`};
  ov.innerHTML=`<div class="shop-ov"><div class="shead"><h2>Mercador ambulante</h2><span class="gold">${g} ouro</span></div>
  <div class="stimer"><i id="shopbar" style="width:${shopT/25*100}%"></i></div>
- <p class="empty">Parte em <span id="shopt">${Math.ceil(shopT)}</span>s · <b>escolha 1 item</b> (a poção não conta) · quanto mais ouro você tem, mais caro fica, principalmente os raros · o número verde ou vermelho compara com o que você tem equipado${full?`</p><p class="fullw">Mochila cheia (${invCap()}/${invCap()}). Ao comprar, o item de menor poder da mochila vira almas para abrir espaço.`:''}</p>
+ <p class="empty">Parte em <span id="shopt">${Math.ceil(shopT)}</span>s · <b>leve só 1 item</b> (a poção não conta) · o preço sobe com o ouro que você tem${full?`</p><p class="fullw">Mochila cheia (${invCap()}/${invCap()}). Ao comprar, o item de menor poder da mochila vira almas para abrir espaço.`:''}</p>
  <div class="sgrid">${stock.map(card).join('')}
  <div class="scard pot" style="--c:#e5484d"><span class="rib">Consumível</span><span class="med"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"><path d="M24 6h16v10l10 14v24a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V30l10-14z"/><path d="M18 36h28"/></svg></span>
  <b>Poção de vida</b><small>Cura 50% da vida máxima</small><div class="pw">Vida ${fmt(Math.max(0,hero.hp))} / ${fmt(maxHp())}</div><ul><li>+${fmt(maxHp()*.5)} de vida agora</li></ul>
