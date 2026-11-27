@@ -1,0 +1,16 @@
+{
+  "name": "Sina do Andarilho",
+  "short_name": "Sina",
+  "description": "Jogo incremental de cartas: um herói, uma estrada sem fim.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1517",
+  "theme_color": "#0d1517",
+  "lang": "pt-BR",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

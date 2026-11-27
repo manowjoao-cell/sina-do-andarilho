@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1517">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sina">
 <title>Sina do Andarilho</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
@@ -305,14 +313,14 @@ window.FIREBASE_CONFIG={
 <div class="game">
 <div class="frame"><canvas id="cv" width="960" height="400"></canvas><div id="ov" class="ov hidden"></div></div>
 <div class="bar">
-<div class="seg" role="group" aria-label="Velocidade"><button data-sp="1" class="on">1x</button><button data-sp="2" disabled>2x</button><button data-sp="3" disabled>3x</button><button data-sp="4" disabled>4x</button><button data-sp="6" disabled>6x</button><button data-sp="8" disabled>8x</button><button data-sp="12" disabled>12x</button><button data-sp="16" disabled>16x</button></div>
-<button id="rollb" title="Esquiva: 0,6s invulnerável, recarga 4s">Esquivar (E)</button>
+<div class="seg" role="group" aria-label="Velocidade"><button data-sp="1" class="on">1x</button><button data-sp="1.5">1,5x</button><button data-sp="2" disabled>2x</button><button data-sp="3" disabled>3x</button><button data-sp="4" disabled>4x</button><button data-sp="6" disabled>6x</button><button data-sp="8" disabled>8x</button><button data-sp="12" disabled>12x</button><button data-sp="16" disabled>16x</button></div>
+<button id="spb" class="on" title="Habilidade especial da classe">Especial (Q)</button><button id="rollb" title="Esquiva: 0,6s invulnerável, recarga 4s">Esquivar (E)</button>
 <button id="pause">Pausar</button>
 <button id="hudb" title="Mostrar ou esconder atributos e sinergias na tela (H)">Ocultar atributos</button>
 <label class="tg"><input type="checkbox" id="auto"> Escolha automática</label>
 <div class="seg snd" role="group" aria-label="Som"><button id="sndb" aria-pressed="true" title="Efeitos sonoros">Som</button><button id="musb" aria-pressed="true" title="Música ambiente">Música</button><input type="range" id="vol" min="0" max="100" aria-label="Volume"></div>
 <span class="sp"></span>
-<button id="dailyq" title="Corrida do dia com modificadores especiais">Corrida diária</button><button id="clsb">Classe</button><label class="sth">Início<select id="sth" aria-label="Horda inicial"></select></label><button id="restart">Recomeçar corrida</button>
+<button id="dailyq" title="Corrida do dia com modificadores especiais">Corrida diária</button><button id="clsb">Classe</button><label class="sth">Início<select id="sth" aria-label="Horda inicial"></select></label><button id="restart">Recomeçar corrida</button><button id="instb" hidden>Instalar app</button>
 </div>
 <div class="quick" id="quick"></div>
 </div>
@@ -449,7 +457,7 @@ if(!Array.isArray(save.inv))save.inv=[];if(!save.eq||typeof save.eq!=='object')s
 const lv=k=>save.m[k]||0;
 const persist=()=>{save.t=Date.now();try{localStorage.setItem('estrada-cartas-v1',JSON.stringify(save))}catch(e){}};
 
-let lastBlow=null,rs={dmg:{},taken:{},ht:{}},runT=0,toast=null,warn=null,shopSeen=false,stock=[],shopT=0,S={},lt=[],epr=[],sel=null,st,hero,en,pr,pa,tx,fx,ex,horde,spawnQ,spawnT,clearT,state,speed=1,paused=false,t=0,shake=0,banner=null,dist,pq=[],sk={},pickSkill=false,offer,rerolls,picked,kills,bossKills,scroll=0,bgX=0,flash=0;
+let rain=[],lastBlow=null,rs={dmg:{},taken:{},ht:{}},runT=0,toast=null,warn=null,shopSeen=false,stock=[],shopT=0,S={},lt=[],epr=[],sel=null,st,hero,en,pr,pa,tx,fx,ex,horde,spawnQ,spawnT,clearT,state,speed=1,paused=false,t=0,shake=0,banner=null,dist,pq=[],sk={},pickSkill=false,offer,rerolls,picked,kills,bossKills,scroll=0,bgX=0,flash=0;
 const S0=()=>({u_tenth:0,u_rollfire:0,u_rage:0,u_vamp:0,u_cleave:0,u_volley:0,u_arcane:0,atkPct:0,atkFlat:0,aspd:0,crit:5,critD:150,eva:0,onKill:0,hpPct:0,regen:0,ls:0,armor:0,thorns:0,range:0,luck:0,xp:0,soul:0,double:0,pierce:0,explode:0,chain:0,multi:0,revive:0});
 const WP={espada:{n:'Espada',melee:1,rng:80,dm:1.3,sp:1,tg:2,nm:['Espada','Lâmina','Montante']},machado:{n:'Machado',melee:1,rng:92,dm:1.75,sp:.75,tg:99,nm:['Machado','Cutelo','Acha']},
 arco:{n:'Arco',rng:340,dm:.9,sp:1.1,nm:['Arco','Arco longo','Arco curvo']},cajado:{n:'Cajado',rng:280,dm:1.05,sp:.95,nm:['Cajado','Bastão','Cetro']}};
@@ -467,7 +475,7 @@ const maxHp=()=>Math.max(10,(100+lv('hp')*15)*(1+S.hpPct/100)*(1+achN()*.02)*(1+
 const luck=()=>S.luck+lv('luck')*4+le('e_luck')*10+(mut.luck?30:0);
 const eva=()=>Math.min(70,S.eva);
 const range=()=>{const w=wp();return w.rng*(1+S.range/(w.melee?200:100))};
-const UNLOCK=15,SPD=[[1,0],[2,15],[3,22],[4,30],[6,40],[8,50],[12,65],[16,80]];
+const UNLOCK=15,SPD=[[1,0],[1.5,0],[2,15],[3,22],[4,30],[6,40],[8,50],[12,65],[16,80]];
 const xpNeed=l=>Math.floor(8*Math.pow(l,1.5));
 
 // ---------- itens ----------
@@ -862,7 +870,7 @@ const rebGain=()=>Math.max(0,Math.floor((save.cbest||0)/10)-2);
 function newRun(){
  runDaily=nextDaily;nextDaily=false;mut=runDaily?dailyMut():{};runFlags={};
  runCls=runDaily?DAILY().cls:(CLS[save.cls]&&CLS[save.cls].ok()?save.cls:'guerreiro');
- st=S0();for(const [k,v] of Object.entries(CLS[runCls].b))st[k]+=v;recalc();rs={dmg:{},taken:{},ht:{}};lastBlow=null;runT=0;hero={hp:100,lvl:1,xp:0,atkT:0,swing:0,hurt:0,lunge:0,iframe:0,rollCd:0};warn=null;hero.hp=maxHp();
+ st=S0();for(const [k,v] of Object.entries(CLS[runCls].b))st[k]+=v;recalc();rs={dmg:{},taken:{},ht:{}};lastBlow=null;runT=0;hero={hp:100,lvl:1,xp:0,atkT:0,swing:0,hurt:0,lunge:0,iframe:0,rollCd:0,spCd:3};rain=[];warn=null;hero.hp=maxHp();
  shopSeen=false;lt=[];epr=[];en=[];pr=[];pa=[];tx=[];fx=[];ex=[];horde=0;spawnQ=[];spawnT=0;clearT=.6;dist=0;pq=[];sk={};kills=0;bossKills=0;
  rerolls=lv('reroll');picked=[];state='run';ov.classList.add('hidden');
  {const sh=runDaily?1:Math.min(save.startH||1,maxStart());if(sh>1){horde=sh-1;let xp=0,g=0;for(let h=1;h<sh;h++){const n=Math.min(4+Math.floor(h*.9),34);xp+=n*(1+h*.35);g+=n*(.5+h*.15)}
@@ -874,7 +882,7 @@ function newRun(){
  if(!runDaily&&save.nick&&save.clsAsk!==false&&!save.auto&&Object.values(CLS).filter(c=>c.ok()).length>1&&state==='run')openClass();
 }
 function openClass(){state='pick';ov.innerHTML=`<div class="pick"><h2>Escolha sua classe</h2><div class="cards">${Object.entries(CLS).map(([k,c],i)=>`<button class="card cls" style="--c:${c.c};--k:${c.c}" data-c="${k}" ${c.ok()?'':'disabled'}>
- <span class="rib">${c.ok()?(k===runCls?'Atual':'Classe'):'Bloqueada'}</span><span class="med">${isvg(c.w,'#fff')}</span><span class="txt"><b>${c.n}</b><span class="lab">${c.ok()?c.d:c.req}</span></span><span class="tag">${WP[c.w].n}</span><kbd>${i+1}</kbd></button>`).join('')}</div>
+ <span class="rib">${c.ok()?(k===runCls?'Atual':'Classe'):'Bloqueada'}</span><span class="med">${isvg(c.w,'#fff')}</span><span class="txt"><b>${c.n}</b><span class="lab">${c.ok()?c.d+' Especial: '+SPC[k].n+'.':c.req}</span></span><span class="tag">${WP[c.w].n}</span><kbd>${i+1}</kbd></button>`).join('')}</div>
  <p class="empty small" style="margin-top:14px">A escolha fica salva. Com a escolha automática ligada, esta tela não aparece.</p></div>`;
  ov.classList.remove('hidden');ov.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{if(b.disabled)return;save.cls=b.dataset.c;persist();ov.classList.add('hidden');state='run';newRunKeep()})}
 function newRunKeep(){const keep=save.clsAsk;save.clsAsk=false;newRun();save.clsAsk=keep}
@@ -964,6 +972,13 @@ function bossAI(e,dt){
 function warnEnd(w){const e=w.src;if(e.dead)return;
  if(w.k==='slam'){shake=16;burst(HX,GY-10,'#c9a56a',30);if(hero.iframe>0){addTx(HX,GY-90,'Esquivou!','#9fe3ff',18,.8);mEv('roll');save.tot=save.tot||{};save.tot.rolls=(save.tot.rolls||0)+1}else{hero.iframe=0;hurtHero(e.dmg*3,e,'slam')}}
  else for(let i=0;i<3;i++)setTimeout(()=>{if(state!=='run'||e.dead)return;const sx=e.x-40,sy=e.y-90,dx=HX-sx,dy=(GY-35)-sy,L=Math.hypot(dx,dy);epr.push({x:sx,y:sy,vx:dx/L*420,vy:dy/L*420,d:e.dmg*1.3,src:e,k:'fire'});sfx('fire')},i*220/speed)}
+const SPC={guerreiro:{n:'Impacto sísmico',cd:12,d:'salta e derruba quem estiver perto: 400% do ataque e atordoa'},arqueiro:{n:'Chuva de flechas',cd:12,d:'12 flechas caem do céu: 140% do ataque cada'},mago:{n:'Inverno eterno',cd:14,d:'congela todos os inimigos na tela e causa 120% do ataque'}};
+function special(){if(state!=='run'||hero.spCd>0)return;const k=runCls;hero.spCd=SPC[k].cd;
+ if(k==='guerreiro'){sfx('boss');shake=14;fx.push({ring:1,x:HX+40,y:GY-10,life:.3,c:'233,132,106'});burst(HX+40,GY-5,'#c9a56a',40);
+  for(const o of en)if(!o.dead&&o.x-HX<240){dmgEnemy(o,atk()*4,true,'');o.frz=Math.max(o.frz||0,o.bk?.5:1.2);o.x+=40}}
+ else if(k==='arqueiro'){sfx('bow');for(let i=0;i<12;i++){const tg=en.filter(o=>!o.dead&&o.x<W);const o=tg.length?tg[Math.floor(Math.random()*tg.length)]:null;rain.push({t:i*.09,x:o?o.x+(Math.random()-.5)*20:HX+150+Math.random()*500,y:-30,tgt:o})}}
+ else{sfx('ice');flash=.25;for(const o of en)if(!o.dead&&o.x<W){o.frz=Math.max(o.frz||0,o.bk?1:2.5);dmgEnemy(o,atk()*1.2,false,'');burst(o.x,o.y-o.r,'#bfefff',8)}}
+ addTx(HX,GY-110,SPC[k].n+'!','#ffd34d',20,1.2)}
 function roll(){if(state!=='run'||hero.rollCd>0)return;hero.iframe=.6;hero.rollCd=4;sfx('dodge');
  if(S.u_rollfire){sfx('fire');fx.push({ring:1,x:HX,y:GY-30,life:.3,c:'255,138,42'});burst(HX,GY-20,'#ff8a2a',30);for(const o of en)if(!o.dead&&Math.abs(o.x-HX)<200)dmgEnemy(o,atk()*3,false,'fire')}
 for(let i=0;i<10;i++)pa.push({x:HX+(Math.random()-.5)*30,y:GY-10-Math.random()*40,vx:-80-Math.random()*60,vy:-20,life:.4,c:'#bfefff',s:3})}
@@ -1030,6 +1045,29 @@ function restoreRun(){const r=save.run;if(!r||r.v!==1||!r.hero||!r.st)return fal
   horde=Math.max(0,(r.horde||1)-1);en=[];spawnQ=[];epr=[];pr=[];clearT=.8;pq=r.pq||[];
   state='run';ov.classList.add('hidden');renderPanels();tip('Corrida restaurada',`Você voltou para a horda ${r.horde}.`,4);return true}catch(e){save.run=null;return false}}
 addEventListener('pagehide',snapRun);document.addEventListener('visibilitychange',()=>{if(document.hidden)snapRun()});setInterval(()=>{if(state==='run')snapRun()},10000);
+// ---------- compartilhar resultado ----------
+const GAME_URL='https://manowjoao-cell.github.io/sina-do-andarilho/';
+function shareImg(){const c=document.createElement('canvas');c.width=1080;c.height=1080;const g=c.getContext('2d');
+ const bg=g.createLinearGradient(0,0,0,1080);bg.addColorStop(0,'#0b1a20');bg.addColorStop(.6,'#1d3a40');bg.addColorStop(1,'#e9846a');g.fillStyle=bg;g.fillRect(0,0,1080,1080);
+ g.fillStyle='rgba(255,236,210,.9)';g.beginPath();g.arc(820,220,90,0,7);g.fill();
+ g.fillStyle='#0f1f20';for(let i=0;i<14;i++){const x=i*85-20,h=120+(i*53%90);g.beginPath();g.moveTo(x,860);g.lineTo(x+45,860-h);g.lineTo(x+90,860);g.fill()}
+ g.fillStyle='rgba(5,9,11,.72)';g.fillRect(70,150,940,600);g.fillStyle='#ffd34d';g.fillRect(70,150,940,6);g.fillRect(70,744,940,6);
+ g.textAlign='center';g.fillStyle='#ffd34d';g.font='800 44px Rubik,system-ui,sans-serif';g.fillText('SINA DO ANDARILHO',540,235);
+ g.fillStyle='#fff';g.font='800 72px Rubik,system-ui,sans-serif';g.fillText(save.nick||'Andarilho',540,335);
+ g.fillStyle='#9fd6f0';g.font='600 34px Rubik,system-ui,sans-serif';g.fillText(`${CLS[runCls].n} · nível ${hero.lvl}`,540,390);
+ g.fillStyle='#fff';g.font='800 150px Rubik,system-ui,sans-serif';g.fillText(`Horda ${horde}`,540,550);
+ g.fillStyle='#c8d6d5';g.font='600 32px Rubik,system-ui,sans-serif';g.fillText(`${kills} abates · recorde ${save.best}`,540,610);
+ const eq=Object.values(save.eq).filter(Boolean);eq.forEach((it,i)=>{const x=540+(i-(eq.length-1)/2)*110;g.fillStyle=R[it.r].c;g.beginPath();g.roundRect(x-40,640,80,80,14);g.fill();g.fillStyle='#0b0f10';g.font='800 26px Rubik,system-ui,sans-serif';g.fillText(it.il,x,690)});
+ g.fillStyle='#fff';g.font='700 36px Rubik,system-ui,sans-serif';g.fillText('Consegue passar de mim?',540,930);g.fillStyle='#ffe9c9';g.font='600 28px Rubik,system-ui,sans-serif';g.fillText(GAME_URL.replace('https://',''),540,985);
+ return new Promise(r=>c.toBlob(r,'image/png'))}
+async function shareRun(){const m=document.getElementById('sharem'),txt=`Cheguei na horda ${horde} no Sina do Andarilho com ${save.nick||'meu herói'}! Consegue passar de mim? ${GAME_URL}`;
+ try{const b=await shareImg(),f=new File([b],'sina-do-andarilho.png',{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:txt});return}
+  if(navigator.share){await navigator.share({text:txt,url:GAME_URL});return}
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='sina-do-andarilho.png';a.click();
+  try{await navigator.clipboard.writeText(txt);m.textContent='Imagem baixada e texto copiado. É só colar no WhatsApp.'}catch(e){m.textContent='Imagem baixada. Mande junto o link: '+GAME_URL}}
+ catch(e){if(e&&e.name==='AbortError')return;m.textContent='Não consegui compartilhar. Mande o link: '+GAME_URL}}
+
 function die(){sfx('death');save.run=null;setTimeout(()=>cloudSave(true),300);
  state='dead';const g=Math.floor((2*Math.pow(horde,1.4)+bossKills*10+kills/20)*(1+S.soul/100)*(1+lv('soul')*.1)*(1+le('e_soul')*.25));
  save.souls+=g;save.best=Math.max(save.best,horde);setTimeout(syncStart,0);save.cbest=Math.max(save.cbest??save.best,horde);if(runDaily){mEv('daily');rkDaily(horde)}
@@ -1044,8 +1082,8 @@ function die(){sfx('death');save.run=null;setTimeout(()=>cloudSave(true),300);
  <div class="souls px">+${g} almas</div>
  <div class="dgrid"><div class="dbox"><h3>Dano causado</h3>${rows(rs.dmg,'#ffd34d')}</div><div class="dbox"><h3>Dano recebido</h3>${rows(rs.taken,'#e5484d')}</div></div>
  <div class="dfacts">${bi?`<span>Item mais forte: <b style="color:${R[bi.r].c}">${bi.n}</b> (poder ${ipow(bi)})</span>`:''}${hh?`<span>Horda mais difícil: <b>${hh[0]}</b> (${fmt(hh[1])} de dano levado)</span>`:''}${bestSyn?`<span>Família mais usada: <b style="color:${CAT[bestSyn][1]}">${SYN[bestSyn].n}</b> (${sc[bestSyn]} cartas)</span>`:''}</div>
- <p>Gaste as almas no Altar e volte mais forte.</p><div class="acts" style="justify-content:center"><button id="again" class="on">Nova corrida</button><button id="toaltar">Ir ao Altar</button></div></div>`;
- ov.classList.remove('hidden');document.getElementById('again').onclick=newRun;document.getElementById('toaltar').onclick=()=>{ov.classList.add('hidden');setTab('al');document.getElementById('dock').scrollIntoView({behavior:'smooth',block:'start'})};
+ <p>Gaste as almas no Altar e volte mais forte.</p><div class="acts" style="justify-content:center"><button id="again" class="on">Nova corrida</button><button id="toaltar">Ir ao Altar</button><button id="shareb">Compartilhar resultado</button></div><p class="empty small" id="sharem"></p></div>`;
+ ov.classList.remove('hidden');document.getElementById('again').onclick=newRun;document.getElementById('shareb').onclick=shareRun;document.getElementById('toaltar').onclick=()=>{ov.classList.add('hidden');setTab('al');document.getElementById('dock').scrollIntoView({behavior:'smooth',block:'start'})};
 }
 // ---------- conquistas ----------
 const ACH=[['k1','Primeiro sangue','Derrote 1 inimigo',()=>(save.tot?.kills||0)>=1],['k500','Caçador','Derrote 500 inimigos no total',()=>(save.tot?.kills||0)>=500],
@@ -1072,10 +1110,11 @@ function step(dt){
   e.wob+=dt*6;const reach=HX+22+e.r,slow=e.frz>0?0:e.ch>0?.6:1;
   statusTick(e,dt);
   const T=TY[e.k];e.x-=scroll*dt;
-  if(T.rng){if(e.x-HX<T.rng&&e.x<W-10&&!(e.frz>0)){e.cd-=dt*slow;if(e.cd<=0){e.cd=e.cdv;e.lunge=.25;shoot(e)}}if(e.x<reach)e.x=reach;
+  const MSP=1.35;
+  if(T.rng){if(e.x<W+40&&e.x-HX>T.rng*.8&&!(e.frz>0))e.x-=60*MSP*slow*dt;if(e.x-HX<T.rng&&e.x<W-10&&!(e.frz>0)){e.cd-=dt*slow;if(e.cd<=0){e.cd=e.cdv;e.lunge=.25;shoot(e)}}if(e.x<reach)e.x=reach;
    if(e.x<=reach&&!(e.frz>0)){e.mc=(e.mc||1)-dt;if(e.mc<=0){e.mc=1.4;hurtHero(e.dmg*.5,e,'soco')}}}
-  else{if(!e.ag&&e.x-HX<AGGRO&&e.x<W-10)aggro(e);
-   if(e.x>reach){if(e.ag)e.x-=e.sp*slow*dt;if(e.x<reach)e.x=reach}
+  else{if(!e.ag&&e.x<W+40)aggro(e);
+   if(e.x>reach){if(e.ag)e.x-=Math.max(e.sp,55)*MSP*slow*dt;if(e.x<reach)e.x=reach}
    else if(!(e.frz>0)){e.cd-=dt*slow;if(e.cd<=0){e.cd=e.cdv;e.lunge=.15;hurtHero(e.dmg,e)}}}
   if(e.bk)bossAI(e,dt);
   if(e.af==='regen'&&e.hp<e.max)e.hp=Math.min(e.max,e.hp+e.max*.03*dt);
@@ -1110,6 +1149,8 @@ function step(dt){
  for(const p of pa){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=500*dt;p.life-=dt}pa=pa.filter(p=>p.life>0);
  for(const s of tx){s.y-=40*dt;s.life-=dt}tx=tx.filter(s=>s.life>0);
  for(const f of fx)f.life-=dt;fx=fx.filter(f=>f.life>0);
+ hero.spCd=Math.max(0,(hero.spCd||0)-dt);if(save.auto&&hero.spCd<=0&&en.filter(o=>!o.dead&&o.x-HX<300).length>=3)special();
+ for(const r of rain){r.t-=dt;if(r.t>0)continue;r.y+=900*dt;if(r.tgt&&!r.tgt.dead)r.x=r.tgt.x;if(r.y>=(r.tgt?r.tgt.y-r.tgt.r:GY)){r.done=1;if(r.tgt&&!r.tgt.dead)dmgEnemy(r.tgt,atk()*1.4,false,'');burst(r.x,GY-10,'#d9c29a',4)}}rain=rain.filter(r=>!r.done);
  for(const l of lt){l.vy+=700*dt;l.y+=l.vy*dt;if(l.y>GY-8){l.y=GY-8;l.vy=0}l.x-=scroll*dt;l.life-=dt}lt=lt.filter(l=>l.life>0);
  if(banner){banner.life-=dt;if(banner.life<=0)banner=null}
  if(pq.length&&state==='run')openPick(0,null,pq.shift());
@@ -1308,7 +1349,8 @@ function hudB(){
  bar(66,y0+33,250,8,hero.xp/xpNeed(hero.lvl),'#5ab8e8','');ctx.restore();
  if(save.inv.length>=invCap()){ctx.globalAlpha=.6+.4*Math.sin(t*6);ltext('MOCHILA CHEIA',66,y0-6,'800 12px Rubik,system-ui,sans-serif','#ff6b6b');ctx.globalAlpha=1}
  ltext(`● ${save.gold||0} ouro`,66,y0+55,'800 11.5px Rubik,system-ui,sans-serif','#ffd34d');
- ltext(`XP ${Math.floor(hero.xp)}/${xpNeed(hero.lvl)}`,152,y0+55,'800 11.5px Rubik,system-ui,sans-serif','#9fd6f0');
+
+ ltext(hero.spCd>0?`Especial ${Math.ceil(hero.spCd)}s`:'Especial · Q',150,y0+55,'800 11.5px Rubik,system-ui,sans-serif',hero.spCd>0?'#c8d6d5':'#ffd34d','left');
  ltext(hero.rollCd>0?`Esquiva ${hero.rollCd.toFixed(1)}s`:'Esquiva · E',316,y0+55,'800 11.5px Rubik,system-ui,sans-serif',hero.rollCd>0?'#c8d6d5':'#9fe3ff','right');
  if(save.hudMin)return;
  STATI().forEach(([l,v,c],i)=>{const x=346+(i%3)*90,y=y0+26+Math.floor(i/3)*22;ctx.fillStyle='rgba(4,7,9,.8)';ctx.beginPath();ctx.roundRect(x-1,y-10,5,13,2);ctx.fill();ctx.fillStyle=c;ctx.beginPath();ctx.roundRect(x,y-9,3,11,1.5);ctx.fill();
@@ -1345,6 +1387,7 @@ function draw(){
  for(const l of lt){ctx.globalAlpha=Math.min(1,l.life);if(l.r>=3){const g=ctx.createLinearGradient(0,l.y-120,0,l.y);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,l.c);ctx.fillStyle=g;ctx.globalAlpha*=.45;ctx.fillRect(l.x-6,l.y-120,12,120);ctx.globalAlpha=Math.min(1,l.life)}
   ctx.fillStyle=l.c;ctx.beginPath();ctx.roundRect(l.x-8,l.y-12,16,14,4);ctx.fill();ctx.fillStyle='#000a';ctx.fillRect(l.x-6,l.y-14,12,3);ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.strokeRect(l.x-8,l.y-12,16,14)}ctx.globalAlpha=1;
  for(const p of pa){ctx.globalAlpha=Math.min(1,p.life*2);ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s)}ctx.globalAlpha=1;
+ for(const r of rain){if(r.t>0)continue;ctx.strokeStyle='#d9c29a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(r.x,r.y-24);ctx.lineTo(r.x,r.y);ctx.stroke();ctx.fillStyle='#e8eef5';ctx.beginPath();ctx.moveTo(r.x,r.y+8);ctx.lineTo(r.x-4,r.y);ctx.lineTo(r.x+4,r.y);ctx.fill()}
  drawFg();
  ctx.textAlign='center';for(const s of tx){ctx.globalAlpha=Math.min(1,s.life/s.max*2);ctx.font=`700 ${s.sz}px Rubik,sans-serif`;ctx.fillStyle='#000';ctx.fillText(s.s,s.x+1.5,s.y+1.5);ctx.fillStyle=s.c;ctx.fillText(s.s,s.x,s.y)}ctx.globalAlpha=1;
  ctx.restore();
@@ -1417,14 +1460,14 @@ function renderPanels(){
  document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const m=META.find(x=>x[0]===b.dataset.m),c=cost(m);if(save.souls<c||lv(m[0])>=m[5])return;
   save.souls-=c;save.m[m[0]]=lv(m[0])+1;sfx('buy');if(st)recalc();persist();renderPanels()});
 }
-function renderHow(){document.getElementById('how').innerHTML=`<h2 style="margin-top:30px">Como jogar</h2><div class="howg"><div class="hw" style="--c:#ffd34d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffd34d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.star}</svg><div><b>Cartas</b><p>Cada nível oferece 3 cartas. A raridade multiplica o efeito: uma Mítica vale 10 vezes uma Comum. Passe o mouse para ver o ganho real.</p></div></div><div class="hw" style="--c:#ffe14d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffe14d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.bolt}</svg><div><b>Habilidades</b><p>A cada 5 níveis: sangramento, gelo, fogo, raio ou veneno. Escolher a mesma de novo sobe o nível dela.</p></div></div><div class="hw" style="--c:#3d8bff"><svg viewBox="0 0 64 64" fill="none" stroke="#3d8bff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.sw}</svg><div><b>Itens e armas</b><p>Itens mudam a aparência do herói. Espada e machado batem de perto; arco e cajado atiram de longe. Nível maior é sempre melhor na mesma raridade.</p></div></div><div class="hw" style="--c:#ff6b6b"><svg viewBox="0 0 64 64" fill="none" stroke="#ff6b6b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.shield}</svg><div><b>Inimigos e elites</b><p>Arqueiros e xamãs atiram de longe. A partir da horda 4 surgem elites Blindado, Veloz, Regenerador e Gigante. Chefe a cada 10 hordas.</p></div></div><div class="hw" style="--c:#ffc61a"><svg viewBox="0 0 64 64" fill="none" stroke="#ffc61a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.drop}</svg><div><b>Ouro e mercador</b><p>Inimigos soltam ouro. Nas hordas terminadas em 5 e às vezes em outras, o mercador vende itens do nível da horda e poções.</p></div></div><div class="hw" style="--c:#e9846a"><svg viewBox="0 0 64 64" fill="none" stroke="#e9846a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.heart}</svg><div><b>Altar e Ameaça</b><p>Almas da morte compram melhorias permanentes. Altar e equipamento sobem a Ameaça, que fortalece os inimigos. Velocidades de 2x a 16x liberam conforme seu recorde: 2x na horda 15, 3x na 22, 4x na 30, 6x na 40, 8x na 50, 12x na 65 e 16x na 80.</p></div></div></div><p class="empty" style="margin-top:14px">Com recorde alto, escolha começar mais adiante (até metade do recorde): as hordas puladas entregam XP e ouro na hora. A partir da horda 30, os inimigos ficam bem mais fortes e as elites mais comuns. Atalhos: E esquiva, H mostra ou esconde atributos na tela, I mochila, T atributos, A altar, 1 a 4 escolhem cartas, R troca as cartas, espaço pausa.</p>`}
+function renderHow(){document.getElementById('how').innerHTML=`<h2 style="margin-top:30px">Como jogar</h2><div class="howg"><div class="hw" style="--c:#ffd34d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffd34d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.star}</svg><div><b>Cartas</b><p>Cada nível oferece 3 cartas. A raridade multiplica o efeito: uma Mítica vale 10 vezes uma Comum. Passe o mouse para ver o ganho real.</p></div></div><div class="hw" style="--c:#ffe14d"><svg viewBox="0 0 64 64" fill="none" stroke="#ffe14d" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.bolt}</svg><div><b>Habilidades</b><p>A cada 5 níveis: sangramento, gelo, fogo, raio ou veneno. Escolher a mesma de novo sobe o nível dela.</p></div></div><div class="hw" style="--c:#3d8bff"><svg viewBox="0 0 64 64" fill="none" stroke="#3d8bff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.sw}</svg><div><b>Itens e armas</b><p>Itens mudam a aparência do herói. Espada e machado batem de perto; arco e cajado atiram de longe. Nível maior é sempre melhor na mesma raridade.</p></div></div><div class="hw" style="--c:#ff6b6b"><svg viewBox="0 0 64 64" fill="none" stroke="#ff6b6b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.shield}</svg><div><b>Inimigos e elites</b><p>Arqueiros e xamãs atiram de longe. A partir da horda 4 surgem elites Blindado, Veloz, Regenerador e Gigante. Chefe a cada 10 hordas.</p></div></div><div class="hw" style="--c:#ffc61a"><svg viewBox="0 0 64 64" fill="none" stroke="#ffc61a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.drop}</svg><div><b>Ouro e mercador</b><p>Inimigos soltam ouro. Nas hordas terminadas em 5 e às vezes em outras, o mercador vende itens do nível da horda e poções.</p></div></div><div class="hw" style="--c:#e9846a"><svg viewBox="0 0 64 64" fill="none" stroke="#e9846a" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">${GL.heart}</svg><div><b>Altar e Ameaça</b><p>Almas da morte compram melhorias permanentes. Altar e equipamento sobem a Ameaça, que fortalece os inimigos. Velocidades de 2x a 16x liberam conforme seu recorde: 2x na horda 15, 3x na 22, 4x na 30, 6x na 40, 8x na 50, 12x na 65 e 16x na 80.</p></div></div></div><p class="empty" style="margin-top:14px">Com recorde alto, escolha começar mais adiante (até metade do recorde): as hordas puladas entregam XP e ouro na hora. A partir da horda 30, os inimigos ficam bem mais fortes e as elites mais comuns. Atalhos: Q especial da classe, E esquiva, H mostra ou esconde atributos na tela, I mochila, T atributos, A altar, 1 a 4 escolhem cartas, R troca as cartas, espaço pausa.</p>`}
 function renderLegend(){renderHow();
  const sum=BW.reduce((a,b)=>a+b);
  document.getElementById('legend').innerHTML=R.map((r,i)=>`<div class="leg" style="--c:${r.c}"><b>${r.n}</b><span class="pips">${R.map((_,j)=>`<i class="${j<=i?'on':''}"></i>`).join('')}</span><span>${r.m}x de força<br>${(BW[i]/sum*100).toFixed(BW[i]<1?1:0)}% sem sorte</span></div>`).join('');
 }
 
 function syncSpeed(){save.unl=save.unl||{};if(save.sp2)save.unl[2]=1;
- for(const [v,req] of SPD){if(save.best>=req)save.unl[v]=1;const b=document.querySelector(`[data-sp="${v}"]`);if(!b||v===1)continue;const ok=!!save.unl[v];b.disabled=!ok;b.textContent=ok?v+'x':`${v}x (h${req})`;b.title=ok?'':`Libera ao chegar à horda ${req}`}}
+ for(const [v,req] of SPD){if(save.best>=req)save.unl[v]=1;const b=document.querySelector(`[data-sp="${v}"]`);if(!b||v===1)continue;const ok=!!save.unl[v];b.disabled=!ok;b.textContent=ok?String(v).replace('.',',')+'x':`${String(v).replace('.',',')}x (h${req})`;b.title=ok?'':`Libera ao chegar à horda ${req}`}}
 function setSpeed(v){const b=document.querySelector(`[data-sp="${v}"]`);if(!b||b.disabled)v=1;speed=v;save.spd=v;persist();document.querySelectorAll('[data-sp]').forEach(x=>x.classList.toggle('on',+x.dataset.sp===v))}
 document.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{if(!b.disabled)setSpeed(+b.dataset.sp)});
 const pb=document.getElementById('pause');pb.onclick=()=>{paused=!paused;pb.textContent=paused?'Continuar':'Pausar';pb.classList.toggle('on',paused)};
@@ -1554,11 +1597,17 @@ document.getElementById('sugf').onsubmit=async ev=>{ev.preventDefault();const t=
 function setTab(k){document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===k;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
  for(const t of ['eq','st','al','rk','sg'])document.getElementById('tab-'+t).hidden=t!==k}
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
-document.getElementById('rollb').onclick=roll;
+{let dp=null;const ib=document.getElementById('instb'),ios=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+ addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;ib.hidden=false});
+ if(ios&&!standalone)ib.hidden=false;
+ ib.onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;ib.hidden=true}else if(ios)tip('Instalar no iPhone','No Safari: toque em Compartilhar e depois em "Adicionar à Tela de Início".',7);else tip('Instalar o app','Abra o menu do navegador e escolha "Instalar app" ou "Adicionar à tela inicial".',7)};
+ if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{})}
+document.getElementById('rollb').onclick=roll;document.getElementById('spb').onclick=special;
 const hb=document.getElementById('hudb'),syncHud=()=>{hb.textContent=save.hudMin?'Mostrar atributos':'Ocultar atributos';hb.setAttribute('aria-pressed',!!save.hudMin)};syncHud();
 hb.onclick=()=>{save.hudMin=!save.hudMin;persist();syncHud()};
 addEventListener('keydown',e=>{
  if((e.key==='e'||e.key==='E')&&e.target.tagName!=='INPUT'){roll();return}
+ if((e.key==='q'||e.key==='Q')&&e.target.tagName!=='INPUT'){special();return}
  if((e.key==='h'||e.key==='H')&&e.target.tagName!=='INPUT'){hb.click();return}
  if(e.target.tagName!=='INPUT'&&state!=='pick'){const tk={i:'eq',t:'st',a:'al',r:'rk'}[e.key.toLowerCase()];if(tk){setTab(tk);openDock()}}
  if(state==='pick'&&ov.querySelector('[data-c]')){const b=ov.querySelectorAll('[data-c]')[+e.key-1];if(b){b.click();e.preventDefault()}return}
