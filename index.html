@@ -355,6 +355,102 @@ body.side .top .brand{max-width:none!important;margin:0 14px}
 }
 #asty{width:auto;max-width:190px;min-height:38px;font-size:14px;padding:0 6px;border:2px solid #2f4a4f;border-radius:10px;background:#0d1719}
 #sideb{display:none}@media (min-width:1200px){#sideb{display:inline-flex}}
+
+/* ---- barra de controles ---- */
+.bar.hbar{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px;margin-top:8px!important;padding:8px;border-radius:14px;background:linear-gradient(180deg,#152427,#0f191b);border:1px solid #243739;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.hcell{display:flex;align-items:center;gap:8px}
+.hspd{flex-direction:column;align-items:flex-start;gap:2px;justify-content:center;padding-right:8px;border-right:1px solid #243739}
+.hspd .seg{border-radius:10px;padding:2px}.hspd .spdg button{min-width:34px;min-height:32px!important;font-size:18px}.hspd .spdg span{min-width:48px;font-size:16px}
+.hspd .spn{font-size:11px;padding-left:2px}
+.hacts{gap:6px}
+.ab{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:64px;min-height:58px!important;padding:6px 8px!important;border-radius:12px;background:#182628;border:1px solid #2c4245;color:#d7e3e2;font-size:12.5px!important;font-weight:700;overflow:hidden;transition:transform .1s,border-color .15s,background .15s}
+.ab svg{width:22px;height:22px}
+.ab:hover{border-color:#4b6a6d;background:#1d2f32}.ab:active{transform:scale(.96)}
+.ab kbd{position:absolute;top:4px;right:5px;font:600 10px/1 Rubik,system-ui,sans-serif;color:#7f9493;border:1px solid #33494b;border-radius:4px;padding:2px 4px;background:#0f1a1c}
+.ab::before{content:"";position:absolute;inset:0;background:rgba(5,10,12,.62);transform-origin:bottom;transform:scaleY(var(--cd,0));pointer-events:none}
+.ab-sp{color:#ffd34d;border-color:#5a4a22;background:linear-gradient(180deg,#2a2615,#1b1d14)}
+.ab-sp.rdy{box-shadow:0 0 0 1px #ffd34d66,0 0 16px #ffd34d33}
+.ab-roll{color:#9fe3ff}
+.ab.on{background:linear-gradient(180deg,#f29a80,#d9735a);color:#1a0f0b;border-color:#f29a80}.ab.on kbd{color:#3a1d14;border-color:#a95a46;background:#f6b39f}
+#pause .ipl{display:none}#pause.on .ip{display:none}#pause.on .ipl{display:block}#pause .ip svg,#pause .ipl svg{display:block}
+.hauto{gap:6px;padding-left:8px;border-left:1px solid #243739}
+.sw{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13.5px;font-weight:700;color:#cfdcdb;min-height:38px}
+.sw input{position:absolute;opacity:0;pointer-events:none}
+.sw i{width:38px;height:22px;border-radius:11px;background:#26393b;position:relative;transition:background .15s;flex:none}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#8aa0a0;transition:transform .15s,background .15s}
+.sw input:checked+i{background:#e9846a}.sw input:checked+i::after{transform:translateX(16px);background:#fff}
+.sw input:focus-visible+i{outline:2px solid #ffd34d;outline-offset:2px}
+.sw span{display:flex;align-items:center;gap:5px}.sw span svg{width:16px;height:16px}
+.hauto #asty{min-height:34px;font-size:13px;max-width:132px}
+.hmenus{gap:6px}
+.hm{position:relative}
+.hm summary{list-style:none;display:flex;align-items:center;gap:6px;min-height:44px;padding:0 11px;border-radius:12px;background:#182628;border:1px solid #2c4245;cursor:pointer;font-weight:700;font-size:14px;color:#d7e3e2;user-select:none}
+.hm summary::-webkit-details-marker{display:none}
+.hm summary svg{width:18px;height:18px}
+.hm summary::after{content:"";width:7px;height:7px;border-right:2px solid #7f9493;border-bottom:2px solid #7f9493;transform:rotate(45deg) translateY(-2px);margin-left:2px}
+.hm[open] summary{border-color:#e9846a;background:#1f2e30}
+.hm .pop{position:absolute;right:0;bottom:calc(100% + 8px);z-index:60;min-width:240px;display:flex;flex-direction:column;gap:4px;padding:8px;border-radius:14px;background:#111c1e;border:1px solid #2f4a4f;box-shadow:0 18px 40px rgba(0,0,0,.6);animation:popin .14s ease-out}
+@keyframes popin{from{opacity:0;transform:translateY(6px)}}
+.mi{display:flex!important;align-items:center;gap:10px;width:100%;min-height:42px;padding:0 12px!important;border-radius:9px;border:0!important;background:transparent;color:#d7e3e2;font-size:14px!important;font-weight:600;text-align:left;cursor:pointer}
+.mi:hover{background:#1c2c2f}.mi svg{width:18px;height:18px;color:#9fb1b0;flex:none}
+.mi[hidden]{display:none!important}@media (max-width:1199px){#sideb.mi{display:none!important}}
+.mi.danger{color:#ff8f7a}.mi.danger svg{color:#ff8f7a}
+.mi kbd{margin-left:auto;font:600 10px/1 Rubik,system-ui,sans-serif;color:#7f9493;border:1px solid #33494b;border-radius:4px;padding:2px 4px}
+.mi .tgl{margin-left:auto;width:32px;height:18px;border-radius:9px;background:#26393b;position:relative;flex:none}.mi kbd+.tgl{margin-left:8px}
+.mi .tgl::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#8aa0a0;transition:transform .15s}
+.mi .tgl.on{background:#e9846a}.mi .tgl.on::after{transform:translateX(14px);background:#fff}
+label.sth.mi{justify-content:space-between;color:#d7e3e2}label.sth.mi select{min-height:34px}
+.pop .snd{display:flex;align-items:center;width:100%;margin-bottom:4px}.pop .snd button{flex:1;min-height:34px!important;font-size:13.5px}.pop .snd input{width:auto;flex:1.2}
+.bar.hbar{container-type:inline-size}
+@container (max-width:1060px){.hm summary>span{display:none}.hm summary{padding:0 10px}}
+@media (max-width:700px){.hspd{border-right:0;flex-direction:row;align-items:center;width:100%}.hacts{width:100%}.hacts .ab{flex:1;min-width:0}.hauto{border-left:0;padding-left:0}.hm .pop{right:auto;left:0}.hmenus{margin-left:auto}}
+
+/* ---- boneco e mochila ---- */
+.doll{position:relative;display:grid;grid-template-columns:repeat(3,68px);grid-template-rows:repeat(3,68px);grid-template-areas:"amul elmo ." "arma peito anel" ". botas .";gap:10px 16px;justify-content:center;padding:14px 12px 30px;border-radius:16px;background:radial-gradient(ellipse at 50% 45%,#1d3134 0%,#111a1c 70%);border:1px solid #243739}
+.dsil{position:absolute;left:50%;top:4px;height:calc(100% - 26px);transform:translateX(-50%);fill:#2a4245;opacity:.85;pointer-events:none}
+.dslot{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:68px;height:68px;min-height:0!important;padding:0!important;border-radius:12px;border:2px solid color-mix(in srgb,var(--c) 70%,#1a2a2c);background:rgba(10,18,20,.6);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
+.dslot.has{background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--c) 38%,transparent),rgba(10,18,20,.9) 72%);box-shadow:0 0 14px color-mix(in srgb,var(--c) 30%,transparent),inset 0 0 0 2px rgba(0,0,0,.35)}
+.dslot svg{width:34px;height:34px}
+.dslot small{font-size:10px;color:#6f8584;line-height:1}
+.dslot em{position:absolute;right:4px;bottom:2px;font-style:normal;font-size:10.5px;font-weight:800;color:#e8efe9;text-shadow:0 1px 2px #000}
+.dslot .lk{position:absolute;top:2px;left:4px;font-style:normal;font-size:11px}
+.dslot.sel{outline:2px solid #fff;outline-offset:2px}
+.dslot:hover{border-color:var(--c);transform:translateY(-1px)}
+.ds-amul{grid-area:amul}.ds-elmo{grid-area:elmo}.ds-arma{grid-area:arma}.ds-peito{grid-area:peito}.ds-anel{grid-area:anel}.ds-botas{grid-area:botas}
+.setc{display:flex;flex-wrap:wrap;gap:6px}.setc span{font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid color-mix(in srgb,var(--c) 60%,transparent);color:var(--c);background:color-mix(in srgb,var(--c) 8%,transparent);cursor:help}.setc b{color:#9fb1b0;font-weight:600}
+.dpow{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:12px;color:#7f9493}.dpow b{color:#ffd34d}
+#slots.slots{display:block!important}
+.invhead h3{font-size:16px}
+.pb{min-height:36px!important;padding:0 14px!important;border-radius:10px!important;font-size:13.5px!important;font-weight:700}
+.pb.ghost{background:transparent;border:1px solid #4a3530;color:#ff9a86}.pb.ghost:hover{background:#2a1b18}
+.ifilt select{border-radius:10px;min-height:36px;background:#0d1719;border:1.5px solid #2f4a4f}
+.iod{margin-top:10px;border:1px solid #243739;border-radius:12px;background:#111b1d}
+.iod summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:42px;padding:0 12px;cursor:pointer;font-weight:700;font-size:13.5px;color:#d7e3e2}
+.iod summary::-webkit-details-marker{display:none}
+.iod summary::before{content:"";width:7px;height:7px;border-right:2px solid #7f9493;border-bottom:2px solid #7f9493;transform:rotate(-45deg);transition:transform .15s;flex:none}
+.iod[open] summary::before{transform:rotate(45deg)}
+.iod summary small{margin-left:auto;font-weight:500;color:#7f9493;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iod .iopts{margin:0;border:0;border-top:1px solid #243739;border-radius:0 0 12px 12px;background:transparent}
+.iopts .opt{grid-template-columns:38px minmax(0,1fr)!important;align-items:center}
+.iopts .opt input{position:absolute;opacity:0;pointer-events:none}
+.tg2{width:36px;height:20px;border-radius:10px;background:#26393b;position:relative;transition:background .15s}
+.tg2::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#8aa0a0;transition:transform .15s}
+.opt input:checked+.tg2{background:#e9846a}.opt input:checked+.tg2::after{transform:translateX(16px);background:#fff}
+.opt input:focus-visible+.tg2{outline:2px solid #ffd34d;outline-offset:2px}
+.iopts .opt.wpo{grid-template-columns:minmax(0,1fr) 170px!important}
+#detail .acts button{min-height:40px;border-radius:10px;padding:0 14px;font-weight:700;font-size:13.5px}
+#detail [data-act=scrap],#detail [data-act=uneq]{background:transparent;border:1px solid #2f4a4f}
+#detail [data-act=scrap]{color:#ff9a86;border-color:#4a3530}
+#detail [data-act=lock]{background:#182628;border:1px solid #2f4a4f}
+#detail [data-act=lock].on{background:linear-gradient(180deg,#ffe08a,#e0b042);color:#2a1d05;border-color:#e0b042}
+#detail [data-act=up]{width:100%;background:linear-gradient(180deg,#2a2615,#1b1d14);border:1px solid #5a4a22;color:#ffd34d}
+#detail [data-act=up]:disabled{opacity:.45}
+.setl{display:grid;gap:4px}
+.setx{display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:8px;align-items:center;padding:5px 10px;border-radius:10px;border:1px solid #243739;background:#111b1d;cursor:help}
+.setx.on{border-color:color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 7%,#111b1d)}
+.setx b{font-size:12.5px;color:var(--c)}
+.spips{display:flex;gap:3px}.spips i{width:7px;height:7px;border-radius:2px;background:#26393b}.spips i.m{margin-right:3px}.spips i.f{background:var(--c)}
+.setx small{font-size:11.5px;color:#7f9493;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:right}.setx.on small{color:#5fe08a}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -382,15 +478,30 @@ window.FIREBASE_CONFIG={
 <section class="band" style="padding-top:0"><div class="wrap play">
 <div class="game">
 <div class="frame"><canvas id="cv" width="960" height="400"></canvas><div id="ov" class="ov hidden"></div></div>
-<div class="bar">
-<div class="seg spdg" role="group" aria-label="Velocidade"><button id="spm" aria-label="Diminuir velocidade">−</button><span id="spv" aria-live="polite">1x</span><button id="spp" aria-label="Aumentar velocidade">+</button></div><span class="spn" id="spn"></span>
-<button id="spb" class="on" title="Habilidade especial da classe">Especial (Q)</button><button id="manb" title="Controle manual: A e D andam, mouse mira, botão esquerdo ataca, espaço esquiva">Manual (M)</button><button id="rollb" title="Esquiva: 0,6s invulnerável, recarga 4s">Esquivar (E)</button>
-<button id="pause">Pausar</button>
-<button id="sideb" title="Mostrar ou esconder o painel lateral (P)">Painel (P)</button><button id="hudb" title="Mostrar ou esconder atributos e sinergias na tela (H)">Ocultar atributos</button>
-<label class="tg"><input type="checkbox" id="auto"> Escolha automática</label><select id="asty" title="Estilo da escolha automática de cartas" aria-label="Estilo automático"><option value="eq">Equilibrado</option><option value="of">Ofensivo</option><option value="de">Tanque</option><option value="su">Vampiro</option><option value="ut">Caçador de tesouros</option></select>
-<div class="seg snd" role="group" aria-label="Som"><button id="sndb" aria-pressed="true" title="Efeitos sonoros">Som</button><button id="musb" aria-pressed="true" title="Música ambiente">Música</button><input type="range" id="vol" min="0" max="100" aria-label="Volume"></div>
+<div class="bar hbar">
+<div class="hcell hspd"><div class="seg spdg" role="group" aria-label="Velocidade"><button id="spm" aria-label="Diminuir velocidade">−</button><span id="spv" aria-live="polite">1x</span><button id="spp" aria-label="Aumentar velocidade">+</button></div><span class="spn" id="spn"></span></div>
+<div class="hcell hacts">
+<button id="spb" class="ab ab-sp" title="Habilidade especial da classe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.6 6.3L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.7z"/></svg><span class="lb">Especial</span><kbd>Q</kbd></button>
+<button id="rollb" class="ab ab-roll" title="Esquiva: 0,6s invulnerável, recarga 4s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h11M3 12h15M3 16h9"/><path d="M17 6l4 6-4 6"/></svg><span class="lb">Esquivar</span><kbd>E</kbd></button>
+<button id="manb" class="ab" title="Controle manual: A e D andam, mouse mira, botão esquerdo ataca, espaço esquiva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg><span class="lb">Manual</span><kbd>M</kbd></button>
+<button id="pause" class="ab" title="Pausar (Espaço)"><span class="ip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></span><span class="ipl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg></span><span class="lb">Pausar</span><kbd>␣</kbd></button>
+</div>
+<div class="hcell hauto"><label class="sw"><input type="checkbox" id="auto"><i></i><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3M12 18v3M4.2 6.2l2.1 2.1M17.7 15.7l2.1 2.1M3 12h3M18 12h3"/><circle cx="12" cy="12" r="4"/></svg>Automático</span></label><select id="asty" title="Estilo da escolha automática de cartas" aria-label="Estilo automático"><option value="eq">Equilibrado</option><option value="of">Ofensivo</option><option value="de">Tanque</option><option value="su">Vampiro</option><option value="ut">Caçador de tesouros</option></select></div>
 <span class="sp"></span>
-<button id="dailyq" title="Corrida do dia com modificadores especiais">Corrida diária</button><button id="clsb">Classe</button><label class="sth">Início<select id="sth" aria-label="Horda inicial"></select></label><button id="restart">Recomeçar corrida</button><button id="instb" hidden>Instalar app</button>
+<div class="hcell hmenus">
+<details class="hm"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l5-16h6l5 16"/><path d="M12 8v3M12 14v2"/></svg><span>Corrida</span></summary><div class="pop">
+<button id="clsb" class="mi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg><span>Trocar classe</span></button>
+<button id="dailyq" class="mi" title="Corrida do dia com modificadores especiais"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Corrida diária</span></button>
+<label class="sth mi">Começar na<select id="sth" aria-label="Horda inicial"></select></label>
+<button id="restart" class="mi danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg><span>Recomeçar corrida</span></button>
+</div></details>
+<details class="hm"><summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span>Ajustes</span></summary><div class="pop">
+<div class="seg snd" role="group" aria-label="Som"><button id="sndb" aria-pressed="true" title="Efeitos sonoros">Som</button><button id="musb" aria-pressed="true" title="Música ambiente">Música</button><input type="range" id="vol" min="0" max="100" aria-label="Volume"></div>
+<button id="hudb" class="mi" title="Mostrar ou esconder atributos e sinergias na tela (H)">Atributos na tela</button>
+<button id="sideb" class="mi" title="Mostrar ou esconder o painel lateral (P)">Painel lateral</button>
+<button id="instb" class="mi" hidden>Instalar app</button>
+</div></details>
+</div>
 </div>
 <div class="quick" id="quick"></div>
 </div>
@@ -405,18 +516,18 @@ window.FIREBASE_CONFIG={
 <div class="tab" id="tab-eq">
 <div class="slots" id="slots"></div>
 <div class="sets" id="sets"></div>
-<div class="invhead"><h3>Mochila <span class="empty" id="invn"></span></h3><span class="ihb"><button id="bestb" class="on">Equipar melhores</button><button id="scrapc">Desmanchar todos</button></span></div>
+<div class="invhead"><h3>Mochila <span class="empty" id="invn"></span></h3><span class="ihb"><button id="bestb" class="pb on">Equipar melhores</button><button id="scrapc" class="pb ghost">Desmanchar todos</button></span></div>
 <div class="ifilt">
 <label>Ordenar<select id="isort"><option value="il">Nível</option><option value="pw">Poder</option><option value="r">Raridade</option><option value="s">Tipo</option><option value="new">Mais novos</option></select></label>
 <label>Tipo<select id="islot"><option value="">Todos</option><option value="arma">Arma</option><option value="elmo">Elmo</option><option value="peito">Peitoral</option><option value="botas">Botas</option><option value="amul">Amuleto</option><option value="anel">Anel</option></select></label>
 <label>Raridade<select id="irar"><option value="0">Todas</option><option value="1">Incomum+</option><option value="2">Raro+</option><option value="3">Épico+</option><option value="4">Lendário+</option><option value="5">Mítico</option></select></label>
 </div>
-<div class="iopts">
-<label class="opt"><input type="checkbox" id="iup"><span><b>Mostrar só itens melhores</b><small>Esconde da lista o que é pior que o equipado.</small></span></label>
-<label class="opt"><input type="checkbox" id="ascr"><span><b>Desmanchar itens piores sozinho</b><small id="scrinfo"></small></span></label>
+<details class="iod"><summary><span>Automação da mochila</span><small id="iods"></small></summary><div class="iopts">
+<label class="opt"><input type="checkbox" id="iup"><i class="tg2"></i><span><b>Mostrar só itens melhores</b><small>Esconde da lista o que é pior que o equipado.</small></span></label>
+<label class="opt"><input type="checkbox" id="ascr"><i class="tg2"></i><span><b>Desmanchar itens piores sozinho</b><small id="scrinfo"></small></span></label>
 <label class="opt wpo"><span><b>Arma preferida</b><small>Só armas deste tipo são equipadas sozinhas e comparadas. As outras vão para a mochila.</small></span><select id="wpref"><option value="cls">Da classe</option><option value="espada">Espada</option><option value="machado">Machado</option><option value="arco">Arco</option><option value="cajado">Cajado</option><option value="any">Qualquer (maior poder)</option></select></label>
-<label class="opt"><input type="checkbox" id="aeqp"><span><b>Equipar itens melhores sozinho</b><small>O item novo vai direto para o herói.</small></span></label>
-</div>
+<label class="opt"><input type="checkbox" id="aeqp"><i class="tg2"></i><span><b>Equipar itens melhores sozinho</b><small>O item novo vai direto para o herói.</small></span></label>
+</div></details>
 <div class="inv" id="inv"></div>
 <div class="detail" id="detail"></div>
 <p class="empty small" id="dropinfo"></p>
@@ -636,9 +747,12 @@ function sweepInv(){if(save.ascrap===false)return 0;let g=0,n=0;save.inv=save.in
 function applyEq(){sweepInv();const f=hero.hp/maxHp(),b4=setCount();recalc();const af=setCount();for(const r in af)if(Math.floor(af[r]/2)>Math.floor((b4[r]||0)/2)&&af[r]>=2){banner={txt:`${SETN[r]} · ${af[r]} peças`,life:2.2,boss:false};sfx('unlock')}hero.hp=f*maxHp();persist();renderPanels()}
 function renderEquip(){
  document.getElementById('dropinfo').textContent=`Cada inimigo tem ${(dropChance()*100).toFixed(1)}% de chance de soltar um item, e a sorte aumenta essa chance. Chefes sempre soltam um item Raro ou melhor. O nível do item acompanha a horda: cada nível deixa os atributos 8% mais fortes, e a raridade multiplica tudo. Na mesma raridade, item de nível maior é sempre melhor.`;
- document.getElementById('slots').innerHTML=SLOTS.map(sl=>{const it=save.eq[sl[0]],c=it?R[it.r].c:'#4a6468';
-  return `<button class="slot${sel&&sel.w==='eq'&&sel.s===sl[0]?' sel':''}" data-eq="${sl[0]}" style="--c:${it?c:'#2f4a4f'}">${isvg(it?skey(it):sl[0],c)}<span><small>${sl[1]}</small>${it?`<b style="color:${c}">${it.n}</b>`:'vazio'}</span>${lockd(sl[0])?'<i class="lk" title="Travado: nada substitui sozinho">🔒</i>':''}</button>`}).join('');
- {const ec=setCount();const ks=Object.keys(ec).sort((a,b)=>b-a);document.getElementById('sets').innerHTML=ks.length?ks.map(r=>`<div class="setr" style="--c:${R[r].c}"><b>${SETN[r]} <span>${ec[r]}/6</span></b>${setTxt(+r).map(([n,t])=>`<small class="${ec[r]>=n?'ok':''}">${n} peças: ${t}</small>`).join('')}</div>`).join(''):'<p class="empty small">Peças da mesma raridade formam um conjunto: 2, 4 e 6 equipadas liberam bônus.</p>'}
+ document.getElementById('slots').innerHTML=`<div class="doll"><svg class="dsil" viewBox="0 0 120 200" aria-hidden="true"><circle cx="60" cy="30" r="20"/><path d="M28 62q32-14 64 0l8 62-14 4-6-40v52l6 70H72l-12-58-12 58H34l6-70V88l-6 40-14-4z"/></svg>${SLOTS.map(sl=>{const it=save.eq[sl[0]],c=it?R[it.r].c:'#3d5558';
+  return `<button class="dslot ds-${sl[0]}${sel&&sel.w==='eq'&&sel.s===sl[0]?' sel':''}${it?' has':''}" data-eq="${sl[0]}" style="--c:${c}" title="${it?it.n+' · '+R[it.r].n+' · poder '+ipow(it):sl[1]+' vazio'}">${isvg(it?skey(it):sl[0],it?c:'#4a6468')}${it?`<em>${it.il}</em>`:`<small>${sl[1]}</small>`}${lockd(sl[0])?'<i class="lk">🔒</i>':''}</button>`}).join('')}<div class="dpow">Poder total <b>${fmt(gearPow())}</b></div></div>`;
+ {const ec=setCount();const ks=Object.keys(ec).sort((a,b)=>ec[b]-ec[a]||b-a),nm=r=>(n=>n[0].toUpperCase()+n.slice(1))(SETN[r].replace(/^Conjunto (do |dos |da )?/,''));
+ document.getElementById('sets').innerHTML=ks.length?`<div class="setl">${ks.map(r=>{const n=ec[r],tx=setTxt(+r),act=tx.filter(([q])=>n>=q),nx=tx.find(([q])=>n<q);
+  return `<div class="setx${n>=2?' on':''}" style="--c:${R[r].c}" title="${tx.map(([q,t])=>q+' peças: '+t).join('\n')}"><b>${nm(r)}</b><span class="spips">${[1,2,3,4,5,6].map(i=>`<i class="${i<=n?'f':''}${i%2===0?' m':''}"></i>`).join('')}</span><small>${act.length?act.map(a=>a[1]).join(' · '):nx?`${nx[0]-n} p/ ${nx[1]}`:''}</small></div>`}).join('')}</div>`:'<p class="empty small">Peças da mesma raridade formam um conjunto: 2, 4 e 6 equipadas liberam bônus.</p>'}
+ {const el=document.getElementById('iods');if(el){const p=save.wpref||'cls';el.textContent=[save.ascrap!==false?'desmancha':'',save.aeqOn?'equipa':'','arma: '+({cls:'da classe',any:'qualquer'}[p]||p)].filter(Boolean).join(' · ')}}
  {const el=document.getElementById('scrinfo');if(el)el.textContent=(save.ascrap===false?'Desligado: itens piores ficam na mochila.':'Itens piores que o equipado viram almas assim que caem.')+(scrN?` Nesta sessão: ${scrN} ${scrN===1?'item':'itens'}, +${scrG} almas.`:'')}
 {const q=document.getElementById('quick');if(q){const nw=save.inv.filter(i=>i.nw).length,fl=save.inv.length>=invCap(),up=save.inv.filter(it=>better(it)).length;
  q.innerHTML=`<span class="ql">Equipado</span>${SLOTS.map(sl=>{const it=save.eq[sl[0]],c=it?R[it.r].c:'#2f4a4f';return `<button class="qs" data-qs="${sl[0]}" style="--c:${c}" title="${it?escH(it.n):sl[1]+': vazio'}" aria-label="${sl[1]}">${isvg(it?skey(it):sl[0],it?c:'#4a6468')}${it?`<small>${it.il}</small>`:''}</button>`}).join('')}
@@ -1242,7 +1356,7 @@ function manAttack(){const w=wp();hero.atkT=1/aspd();hero.hitN=(hero.hitN||0)+1;
   pr.push({x:sx,y:sy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,d,crit,pc:S.pierce,hs:new Set(),k:w===WP.arco?'arrow':'orb',c:save.eq.arma?R[save.eq.arma.r].c:'#bfefff'});if(crit)shake=Math.max(shake,3)}}
 function step(dt){
  t+=dt;runT+=dt;
- if(manOn()){const mv=MAN.d-MAN.a;hero.mv=mv;if(mv){const fr=en.reduce((m,e)=>e.dead?m:Math.min(m,e.x-e.r),1e9);HX=Math.max(40,Math.min(560,fr-22,HX+mv*200*dt))}}else{hero.mv=0;if(HX!==170)HX+=Math.sign(170-HX)*Math.min(Math.abs(170-HX),200*dt)}
+ if(manOn()){const mv=MAN.d-MAN.a;hero.mv=mv;if(mv){const fr=en.reduce((m,e)=>e.dead?m:Math.min(m,e.x-e.r),1e9),gap=wp().melee?22:Math.min(230,range()-20);if(!(mv>0&&fr>HX+gap+1&&HX>=170))HX=Math.max(40,Math.min(560,fr-22,HX+mv*200*dt))}}else{hero.mv=0;if(HX!==170)HX+=Math.sign(170-HX)*Math.min(Math.abs(170-HX),200*dt)}
  if(hero.hp>0)heal(S.regen*dt);
  // hordas
  if(spawnQ.length){spawnT-=dt;if(spawnT<=0){spawn(spawnQ.shift());spawnT=Math.max(.12,.45-horde*.008)}}
@@ -1251,7 +1365,7 @@ function step(dt){
   if(!evSeen&&horde>=3&&horde%10!==0&&Math.random()<.16){evSeen=true;openEvent();return}}shopSeen=false;evSeen=false;startHorde();clearT=.8}}
  // movimento
  const front=en.reduce((m,e)=>Math.min(m,e.x-e.r),1e9);
- scroll=front>HX+(wp().melee?22:Math.min(230,range()-20))+1?140:0;bgX+=scroll*dt;dist+=scroll*dt/40;
+ scroll=front>HX+(wp().melee?22:Math.min(230,range()-20))+1&&(!manOn()||manIdle()||(MAN.d&&HX>=170))?140:0;bgX+=scroll*dt;dist+=scroll*dt/40;
  for(const e of en){
   e.wob+=dt*6;const reach=HX+22+e.r,slow=e.frz>0?0:e.ch>0?.6:1;
   statusTick(e,dt);
@@ -1569,7 +1683,7 @@ function loop(now){
  if(state==='shop'){shopT-=dt;const el=document.getElementById('shopt');if(el)el.textContent=Math.ceil(Math.max(0,shopT));const sb=document.getElementById('shopbar');if(sb)sb.style.width=Math.max(0,shopT/25*100)+'%';if(shopT<=0)closeShop()}
  if(state==='run'&&!paused){let left=dt*speed;while(left>0&&state==='run'){const d=Math.min(speed>=8?1/30:1/60,left);step(d);left-=d}}
  shake=Math.max(0,shake-dt*30);flash=Math.max(0,flash-dt*1.5);
- draw();acc+=dt;if(acc>.3){acc=0;renderStats();if(state==='run')checkAch()}
+ draw();{const sb_=document.getElementById('spb'),rb_=document.getElementById('rollb');if(sb_&&hero){const a=Math.max(0,(hero.spCd||0)/((SPC[runCls]||{cd:12}).cd)),b=Math.max(0,(hero.rollCd||0)/4);sb_.style.setProperty('--cd',a);sb_.classList.toggle('rdy',a<=0);rb_.style.setProperty('--cd',b)}}acc+=dt;if(acc>.3){acc=0;renderStats();if(state==='run')checkAch()}
  requestAnimationFrame(loop);
 }
 
@@ -1625,10 +1739,10 @@ function syncSpeed(){save.unl=save.unl||{};if(save.sp2)save.unl[2]=1;for(const [
 function setSpeed(v){if(!spOpen().includes(v))v=1;speed=v;save.spd=v;persist();syncSpeed()}
 document.getElementById('spm').onclick=()=>{const op=spOpen(),i=op.indexOf(speed);if(i>0)setSpeed(op[i-1])};
 document.getElementById('spp').onclick=()=>{const op=spOpen(),i=op.indexOf(speed);if(i<op.length-1)setSpeed(op[i+1])};
-const pb=document.getElementById('pause');pb.onclick=()=>{paused=!paused;pb.textContent=paused?'Continuar':'Pausar';pb.classList.toggle('on',paused)};
+const pb=document.getElementById('pause');pb.onclick=()=>{paused=!paused;pb.querySelector('.lb').textContent=paused?'Continuar':'Pausar';pb.classList.toggle('on',paused);pb.blur()};
 document.getElementById('restart').onclick=()=>{if(state!=='dead')die();newRun()};
 {const mb=document.getElementById('manb'),cv_=cv;
- const sync=()=>{const on=manOn();mb.classList.toggle('on',on);mb.textContent=on?'Manual ligado (M)':'Manual (M)';mb.style.display=canMan()?'':'none';cv_.style.cursor=on?'none':''};
+ const sync=()=>{const on=manOn();mb.classList.toggle('on',on);mb.querySelector('.lb').textContent=on?'Manual ✓':'Manual';mb.style.display=canMan()?'':'none';cv_.style.cursor=on?'none':''};
  window.toggleMan=()=>{if(!canMan())return;save.man=!save.man;if(save.man){save.spdA=speed;if(speed>2)setSpeed(2);MAN.last=performance.now();tip('Modo manual','A e D andam · o mouse mira · botão esquerdo ataca (segure para repetir) · espaço esquiva. Parado 5s, o herói volta a atacar sozinho. Velocidade máxima 2x.',7)}else{MAN.a=MAN.d=MAN.down=0;persist();syncSpeed();if(save.spdA)setSpeed(save.spdA)}persist();syncSpeed();sync()};
  mb.onclick=()=>{toggleMan();mb.blur()};sync();
  const pos=e=>{const r=cv_.getBoundingClientRect();MAN.mx=(e.clientX-r.left)/r.width*W;MAN.my=(e.clientY-r.top)/r.height*H};
@@ -1760,7 +1874,7 @@ document.getElementById('sugf').onsubmit=async ev=>{ev.preventDefault();const t=
  if(save.lastSug&&Date.now()-save.lastSug<60000){m.textContent='Espere um minuto antes de enviar outra sugestão.';return}
  m.textContent='Enviando...';try{await DB.collection('sugestoes').add({uid:UID,nick:save.nick||'',texto:txt.slice(0,1500),recorde:save.best||0,t:Date.now()});save.lastSug=Date.now();persist();t.value='';m.textContent='Sugestão enviada. Obrigado!'}
  catch(e){m.textContent='Não consegui enviar agora. Tente de novo em instantes.'}};
-function syncSide(){const on=save.side!==false;document.body.classList.toggle('side',on);const b=document.getElementById('sideb');if(b){b.classList.toggle('on',on);b.textContent=on?'Esconder painel (P)':'Mostrar painel (P)'}}
+function syncSide(){const on=save.side!==false;document.body.classList.toggle('side',on);const b=document.getElementById('sideb');if(b){b.innerHTML=`<span>Painel lateral</span><kbd>P</kbd><i class="tgl${on?' on':''}"></i>`}}
 function openDock(){if(matchMedia('(min-width:1200px)').matches){if(save.side===false){save.side=true;persist();syncSide()}}else{const d=document.getElementById('dock');if(d)d.scrollIntoView({behavior:'smooth',block:'start'})}}
 function setTab(k){document.querySelectorAll('[data-tab]').forEach(b=>{const on=b.dataset.tab===k;b.classList.toggle('on',on);b.setAttribute('aria-selected',on)});
  for(const t of ['eq','st','al','rk','sg'])document.getElementById('tab-'+t).hidden=t!==k}
@@ -1771,8 +1885,9 @@ syncSide();document.getElementById('sideb').onclick=e=>{save.side=save.side===fa
  if(ios&&!standalone)ib.hidden=false;
  ib.onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;ib.hidden=true}else if(ios)tip('Instalar no iPhone','No Safari: toque em Compartilhar e depois em "Adicionar à Tela de Início".',7);else tip('Instalar o app','Abra o menu do navegador e escolha "Instalar app" ou "Adicionar à tela inicial".',7)};
  if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{})}
-document.getElementById('rollb').onclick=roll;document.getElementById('spb').onclick=special;
-const hb=document.getElementById('hudb'),syncHud=()=>{hb.textContent=save.hudMin?'Mostrar atributos':'Ocultar atributos';hb.setAttribute('aria-pressed',!!save.hudMin)};syncHud();
+document.getElementById('rollb').onclick=e=>{roll();e.currentTarget.blur()};document.getElementById('spb').onclick=e=>{special();e.currentTarget.blur()};
+{const ms=[...document.querySelectorAll('details.hm')];ms.forEach(d=>d.addEventListener('toggle',()=>{if(d.open)ms.forEach(o=>{if(o!==d)o.open=false})}));document.addEventListener('click',e=>{const p=e.composedPath();ms.forEach(d=>{if(d.open&&!p.includes(d))d.open=false})});document.getElementById('restart').addEventListener('click',()=>ms.forEach(d=>d.open=false));document.getElementById('clsb').addEventListener('click',()=>ms.forEach(d=>d.open=false));document.getElementById('dailyq').addEventListener('click',()=>ms.forEach(d=>d.open=false))}
+const hb=document.getElementById('hudb'),syncHud=()=>{hb.innerHTML=`<span>Atributos na tela</span><i class="tgl${save.hudMin?'':' on'}"></i>`;hb.setAttribute('aria-pressed',!save.hudMin)};syncHud();
 hb.onclick=()=>{save.hudMin=!save.hudMin;persist();syncHud()};
 addEventListener('keydown',e=>{if(e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
  if((e.key==='e'||e.key==='E')&&e.target.tagName!=='INPUT'){roll();return}
