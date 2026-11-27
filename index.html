@@ -1441,7 +1441,7 @@ function bindNick(){const f=document.getElementById('nickf'),i=document.getEleme
   m.textContent='Verificando...';const nl=n.toLowerCase();
   try{const q=await DB.collection('ranking').where('nickL','==',nl).limit(5).get();
    if(q.docs.some(d=>d.id!==UID)){m.textContent='Esse nick já está em uso. Escolha outro.';return}
-   if(!(await claimNick(n))){m.textContent='Esse nick já está em uso. Escolha outro.';return}
+   {const c=await claimNick(n);if(c!=='ok'){m.textContent=c==='taken'?'Esse nick já está em uso. Escolha outro.':'Conexão lenta. Tente de novo.';return}}
    save.nick=n;persist();await rkWrite(true);m.textContent='Nick salvo!';rkRender()}
   catch(e){if(e&&(e.code==='invalid_argument'||e.code==='permission-denied')){rkCan=false;rkRender()}else m.textContent='Não consegui salvar agora. Tente de novo em instantes.'}}}
 let rkMode='g',rkDayRows=[],rkDaySub=null;
@@ -1463,7 +1463,7 @@ const acctEmail=n=>'n'+Array.from(new TextEncoder().encode(n.trim().toLowerCase(
 const isAcct=()=>!!(window.firebase&&firebase.apps.length&&firebase.auth().currentUser&&!firebase.auth().currentUser.isAnonymous);
 const authMsg=e=>({'auth/wrong-password':'Senha incorreta.','auth/invalid-credential':'Nick ou senha incorretos.','auth/invalid-login-credentials':'Nick ou senha incorretos.','auth/user-not-found':'Não existe conta com esse nick.',
  'auth/weak-password':'A senha precisa de pelo menos 6 caracteres.','auth/email-already-in-use':'Esse nick já tem conta. Use "Já tenho conta".','auth/credential-already-in-use':'Esse nick já tem conta. Use "Já tenho conta".',
- 'auth/too-many-requests':'Muitas tentativas. Espere alguns minutos.','auth/operation-not-allowed':'O login com senha ainda não foi ativado no servidor do jogo.','auth/network-request-failed':'Sem conexão. Tente de novo.'})[e&&e.code]||'Não deu certo agora. Tente de novo.';
+ 'auth/too-many-requests':'Muitas tentativas. Espere alguns minutos.','auth/operation-not-allowed':'O login com senha ainda não foi ativado no servidor do jogo.','auth/network-request-failed':'Sem conexão. Tente de novo.',timeout:'A conexão está lenta. Tente de novo; se continuar, abra o jogo no Safari ou no Chrome.'})[e&&e.code]||'Não deu certo agora. Tente de novo.';
 let cloudT=0,cloudBusy=false;
 async function cloudSave(force){if(!DB||!isAcct()||cloudBusy)return;if(!force&&Date.now()-cloudT<60000)return;cloudBusy=true;
  try{snapRun();const data=JSON.stringify(save);if(data.length<900000){await DB.collection('saves').doc(UID).set({data,t:save.t||Date.now(),nick:save.nick||''});cloudT=Date.now()}}catch(e){console.warn('save',e)}cloudBusy=false}
@@ -1478,8 +1478,11 @@ function acctUI(){const b=document.getElementById('acbox');if(!b)return;if(!DB){
  else if(save.nick){b.innerHTML=`<p class="empty small" style="color:#ffd34d">Seu progresso está salvo só neste aparelho. <button id="pwb" class="mini on">Criar senha</button> <button id="lgb" class="mini">Entrar em outra conta</button></p>`;
   document.getElementById('pwb').onclick=()=>openNick('protect');document.getElementById('lgb').onclick=()=>openNick('login')}
  else b.innerHTML=''}
-async function claimNick(n){if(!DB||!UID)return true;const nl=n.toLowerCase(),ref=DB.collection('nicks').doc(nl.replace(/[^a-z0-9à-ÿ_-]/g,'_'));
- try{return await DB.runTransaction(async tx=>{const d=await tx.get(ref);if(d.exists&&d.data().uid!==UID)return false;tx.set(ref,{uid:UID,nick:n});return true})}catch(e){return false}}
+const withTO=(p,ms)=>Promise.race([p,new Promise((_,rj)=>setTimeout(()=>rj({code:'timeout'}),ms||12000))]);
+const nickId=n=>n.trim().toLowerCase().replace(/[^a-z0-9à-ÿ_-]/g,'_');
+async function claimNick(n){if(!DB||!UID)return 'ok';const ref=DB.collection('nicks').doc(nickId(n));
+ try{const d=await withTO(ref.get());if(d.exists&&d.data().uid!==UID)return 'taken';await withTO(ref.set({uid:UID,nick:n}));return 'ok'}
+ catch(e){console.warn('claim',e);return e&&e.code==='permission-denied'?'taken':'error'}}
 function openNick(mode){if(save.nick&&!mode)return;state='nick';mode=mode||'new';
  const nw=mode==='new',lg=mode==='login',pw=mode==='protect';
  ov.innerHTML=`<div class="pick nickov"><h2>${pw?'Proteja seu progresso':'Bem-vindo, andarilho'}</h2>
@@ -1503,11 +1506,10 @@ function openNick(mode){if(save.nick&&!mode)return;state='nick';mode=mode||'new'
   try{await Promise.race([dbReady,new Promise(r=>setTimeout(r,6000))])}catch(e){}
   if(!DB){if(lg){m.textContent='Sem conexão com o servidor agora.';btn.disabled=false;return}save.nick=n;persist();closeNick();return}
   try{
-   if(lg){const keep=JSON.stringify(save);const cred=await firebase.auth().signInWithEmailAndPassword(acctEmail(n),p0.value);UID=cred.user.uid;
+   if(lg){const keep=JSON.stringify(save);const cred=await withTO(firebase.auth().signInWithEmailAndPassword(acctEmail(n),p0.value),15000);UID=cred.user.uid;
     const got=await cloudLoad();if(!got){save=JSON.parse(keep);save.nick=n;persist();await cloudSave(true)}m.textContent='Bem-vindo de volta! Carregando...';setTimeout(reloadAll,600);return}
-   if(!pw){const q=await DB.collection('ranking').where('nickL','==',n.toLowerCase()).limit(5).get();if(q.docs.some(d=>d.id!==UID)){m.textContent='Esse nick já está em uso. Escolha outro, ou use "Já tenho conta".';btn.disabled=false;return}
-    if(!(await claimNick(n))){m.textContent='Esse nick já está em uso. Escolha outro, ou use "Já tenho conta".';btn.disabled=false;return}}
-   const cr=firebase.auth.EmailAuthProvider.credential(acctEmail(n),p0.value);await firebase.auth().currentUser.linkWithCredential(cr);
+   if(!pw){const c=await claimNick(n);if(c!=='ok'){m.textContent=c==='taken'?'Esse nick já está em uso. Escolha outro, ou use "Já tenho conta".':'A conexão está lenta e não consegui confirmar o nick. Tente de novo.';btn.disabled=false;return}}
+   m.textContent='Criando sua conta...';const cr=firebase.auth.EmailAuthProvider.credential(acctEmail(n),p0.value);await withTO(firebase.auth().currentUser.linkWithCredential(cr),15000);
    save.nick=n;save.acc=1;persist();await rkWrite(true);await cloudSave(true);closeNick(pw)}
   catch(e){if(e&&e.code==='auth/operation-not-allowed'&&!lg){save.nick=n;persist();await rkWrite(true);closeNick(pw);return}m.textContent=authMsg(e);btn.disabled=false}}}
 function closeNick(quiet){if(state!=='nick')return;ov.classList.add('hidden');state='run';rkRender();acctUI();if(quiet)return;tip(`Boa viagem, ${save.nick}!`,DB?'Seu recorde entra no ranking ao fim de cada corrida.':'O ranking está fora do ar agora, mas você pode jogar normalmente.');
@@ -1515,7 +1517,7 @@ function closeNick(quiet){if(state!=='nick')return;ov.classList.add('hidden');st
 (async()=>{
  let rs_;dbReady=new Promise(r=>rs_=r);
  try{if(window.FIREBASE_CONFIG&&window.firebase){firebase.initializeApp(window.FIREBASE_CONFIG);const A=firebase.auth();
-  let u=await new Promise(r=>{const un=A.onAuthStateChanged(x=>{un();r(x)})});if(!u)u=(await A.signInAnonymously()).user;UID=u.uid;DB=firebase.firestore();
+  let u=await new Promise(r=>{const un=A.onAuthStateChanged(x=>{un();r(x)})});if(!u)u=(await A.signInAnonymously()).user;UID=u.uid;DB=firebase.firestore();try{DB.settings({experimentalAutoDetectLongPolling:true,merge:true})}catch(e){}
   if(!u.isAnonymous){await cloudLoad();}}}catch(e){console.warn('Firebase',e);DB=null;UID=null}
  rs_();
  if(!DB){rkMe('<p class="empty">O ranking está fora do ar no momento. Você pode jogar normalmente; seu recorde fica salvo neste aparelho.</p>');document.getElementById('rktab').hidden=true;return}
