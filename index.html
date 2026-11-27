@@ -939,7 +939,7 @@ function showInfo(i){
  box.innerHTML=`<b style="color:${c}">${o.t}</b> ${txt}<div class="cmp">${rows.map(r=>`<span>${r[0]}: ${r[1]} <i>→</i> <strong>${r[2]}</strong></span>`).join('')}</div>`;
 }
 // ---------- mercador ----------
-const price=it=>Math.round(12*(it.r+1)**2*(1+it.il*.12));
+const price=it=>Math.round(7*(it.r+1)**2*(1+it.il*.08));
 const potP=()=>8+horde*2;
 function openShop(){
  if(mut.noshop)return false;
@@ -954,7 +954,7 @@ function drawShop(){
   <span class="med">${isvg(skey(it),'#fff')}</span><b>${it.n}</b><small>${lbl} · nível ${it.il}</small>
   <div class="pw">Poder ${ipow(it)}<em class="${dp>=0?'pos':'neg'}">${dp>=0?'+':'−'}${Math.abs(dp)}</em></div>
   <ul>${it.mods.map(m=>`<li>${modLine(m.k,m.v)}</li>`).join('')}</ul>
-  <button class="buy" data-buy="${i}" ${it.sold||g<price(it)?'disabled':''}>${it.sold?'Comprado':price(it)+' ouro'}</button></div>`};
+  <button class="buy" data-buy="${i}" ${it.sold||g<price(it)?'disabled':''}>${it.sold?'Comprado':g<price(it)?`${price(it)} ouro · faltam ${price(it)-g}`:price(it)+' ouro'}</button></div>`};
  ov.innerHTML=`<div class="shop-ov"><div class="shead"><h2>Mercador ambulante</h2><span class="gold">${g} ouro</span></div>
  <div class="stimer"><i id="shopbar" style="width:${shopT/25*100}%"></i></div>
  <p class="empty">Parte em <span id="shopt">${Math.ceil(shopT)}</span>s · o número verde ou vermelho compara com o que você tem equipado${full?`</p><p class="fullw">Mochila cheia (${invCap()}/${invCap()}). Ao comprar, o item de menor poder da mochila vira almas para abrir espaço.`:''}</p>
