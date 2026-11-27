@@ -1156,7 +1156,7 @@ function rarityUp(it){if(!it||it.r>=5)return null;const c=rupCost(it);if((save.g
 // ---------- renascimento ----------
 const EUP=[['e_atk','Lâmina eterna','+15% ataque total por nível',1,1.6],['e_hp','Corpo eterno','+15% vida máxima por nível',1,1.6],['e_soul','Alma eterna','+25% almas por nível',1,1.6],['e_luck','Destino','+10 de sorte por nível',2,1.8]];
 const eCost=m=>Math.ceil(m[3]*Math.pow(m[4],le(m[0])));
-const rebGain=()=>Math.max(0,Math.floor((save.cbest||0)/10)-2);
+const rebGain=()=>Math.max(0,Math.floor((save.cbest||0)/10)-2)*2;
 function newRun(){
  runDaily=nextDaily;nextDaily=false;mut=runDaily?dailyMut():{};runFlags={};
  runCls=runDaily?DAILY().cls:(CLS[save.cls]&&CLS[save.cls].ok()?save.cls:'guerreiro');
