@@ -939,32 +939,33 @@ function showInfo(i){
  box.innerHTML=`<b style="color:${c}">${o.t}</b> ${txt}<div class="cmp">${rows.map(r=>`<span>${r[0]}: ${r[1]} <i>→</i> <strong>${r[2]}</strong></span>`).join('')}</div>`;
 }
 // ---------- mercador ----------
-const price=it=>Math.round(7*(it.r+1)**2*(1+it.il*.08));
+const pBase=it=>Math.round(7*(it.r+1)**2*(1+it.il*.08)),GFR=[.08,.12,.2,.32,.5,.75];
+const price=it=>it.pr??pBase(it);
 const potP=()=>8+horde*2;
 function openShop(){
  if(mut.noshop)return false;
  const st0=[];for(let i=0;i<4;i++)st0.push(makeItem(Math.max(rollR(0),i===0?1:0),horde));
  if(!st0.some(it=>better(it)))return false;
- stock=st0;state='shop';shopT=25;sfx('bell');drawShop();if(save.auto)setTimeout(autoShop,900);return true;
+ {const g0=save.gold||0;for(const it of st0)it.pr=Math.round(pBase(it)+g0*GFR[it.r])}stock=st0;state='shop';shopT=25;sfx('bell');drawShop();if(save.auto)setTimeout(autoShop,900);return true;
 }
 function drawShop(){
- const g=save.gold||0,full=save.inv.length>=invCap();
+ const g=save.gold||0,full=save.inv.length>=invCap(),bought=stock.some(x=>x&&x.sold);
  const card=(it,i)=>{const c=R[it.r].c,cur=save.eq[it.s],dp=ipow(it)-ipow(cur),lbl=it.s==='arma'?WP[wType(it)].n+(WP[wType(it)].melee?' corpo a corpo':' à distância'):SLOTS.find(x=>x[0]===it.s)[1];
   return `<div class="scard${it.sold?' sold':''}${it.r>=4?' hot':''}" style="--c:${c}"><span class="rib">${R[it.r].n}</span>
   <span class="med">${isvg(skey(it),'#fff')}</span><b>${it.n}</b><small>${lbl} · nível ${it.il}</small>
   <div class="pw">Poder ${ipow(it)}<em class="${dp>=0?'pos':'neg'}">${dp>=0?'+':'−'}${Math.abs(dp)}</em></div>
   <ul>${it.mods.map(m=>`<li>${modLine(m.k,m.v)}</li>`).join('')}</ul>
-  <button class="buy" data-buy="${i}" ${it.sold||g<price(it)?'disabled':''}>${it.sold?'Comprado':g<price(it)?`${price(it)} ouro · faltam ${price(it)-g}`:price(it)+' ouro'}</button></div>`};
+  <button class="buy" data-buy="${i}" ${it.sold||bought||g<price(it)?'disabled':''}>${it.sold?'Comprado':bought?'Limite: 1 item':g<price(it)?`${price(it)} ouro · faltam ${price(it)-g}`:price(it)+' ouro'}</button></div>`};
  ov.innerHTML=`<div class="shop-ov"><div class="shead"><h2>Mercador ambulante</h2><span class="gold">${g} ouro</span></div>
  <div class="stimer"><i id="shopbar" style="width:${shopT/25*100}%"></i></div>
- <p class="empty">Parte em <span id="shopt">${Math.ceil(shopT)}</span>s · o número verde ou vermelho compara com o que você tem equipado${full?`</p><p class="fullw">Mochila cheia (${invCap()}/${invCap()}). Ao comprar, o item de menor poder da mochila vira almas para abrir espaço.`:''}</p>
+ <p class="empty">Parte em <span id="shopt">${Math.ceil(shopT)}</span>s · <b>escolha 1 item</b> (a poção não conta) · quanto mais ouro você tem, mais caro fica, principalmente os raros · o número verde ou vermelho compara com o que você tem equipado${full?`</p><p class="fullw">Mochila cheia (${invCap()}/${invCap()}). Ao comprar, o item de menor poder da mochila vira almas para abrir espaço.`:''}</p>
  <div class="sgrid">${stock.map(card).join('')}
  <div class="scard pot" style="--c:#e5484d"><span class="rib">Consumível</span><span class="med"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"><path d="M24 6h16v10l10 14v24a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V30l10-14z"/><path d="M18 36h28"/></svg></span>
  <b>Poção de vida</b><small>Cura 50% da vida máxima</small><div class="pw">Vida ${fmt(Math.max(0,hero.hp))} / ${fmt(maxHp())}</div><ul><li>+${fmt(maxHp()*.5)} de vida agora</li></ul>
  <button class="buy" data-pot ${g<potP()||hero.hp>=maxHp()?'disabled':''}>${hero.hp>=maxHp()?'Vida cheia':potP()+' ouro'}</button></div></div>
  <button class="on rr" id="leave">Seguir viagem</button></div>`;
  ov.classList.remove('hidden');
- ov.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const i=+b.dataset.buy,it=stock[i];if(!it||it.sold||save.gold<price(it))return;if(save.inv.length>=invCap()){const wi=worstIdx();save.souls+=scrapV(save.inv[wi]);save.inv.splice(wi,1)}save.gold-=price(it);sfx('buy');mEv('buy');save.inv.push(it);stock[i]={...it,sold:1};persist();renderPanels();drawShop()});
+ ov.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const i=+b.dataset.buy,it=stock[i];if(!it||it.sold||stock.some(x=>x&&x.sold)||save.gold<price(it))return;if(save.inv.length>=invCap()){const wi=worstIdx();save.souls+=scrapV(save.inv[wi]);save.inv.splice(wi,1)}save.gold-=price(it);sfx('buy');mEv('buy');save.inv.push(it);stock[i]={...it,sold:1};persist();renderPanels();drawShop()});
  const pb=ov.querySelector('[data-pot]');if(pb)pb.onclick=()=>{if(save.gold<potP())return;save.gold-=potP();sfx('pot');heal(maxHp()*.5);persist();drawShop()};
  document.getElementById('leave').onclick=closeShop;
 }
@@ -975,7 +976,7 @@ function autoShop(){
  const cand=stock.map((it,i)=>({it,i,g:it&&!it.sold&&better(it)?ipow(it)-ipow(save.eq[it.s])+1e4*!wOK(save.eq[it.s]):0})).filter(c=>c.g>0).sort((a,b)=>b.g-a.g);
  for(const c of cand){const p=price(c.it);if(save.gold<p)continue;if(!better(c.it))continue;
   if(save.inv.length>=invCap()){const wi=worstIdx();save.souls+=scrapV(save.inv[wi]);save.inv.splice(wi,1)}
-  save.gold-=p;mEv('buy');save.inv.push(c.it);stock[c.i]={...c.it,sold:1};equipId(c.it.id);got.push(c.it.n)}
+  save.gold-=p;mEv('buy');save.inv.push(c.it);stock[c.i]={...c.it,sold:1};equipId(c.it.id);got.push(c.it.n);break}
  if(got.length)sfx('buy');persist();renderPanels();drawShop();
  const p=document.createElement('p');p.className='autob';p.textContent=got.length?'Compra automática: '+got.join(', ')+'.':'Compra automática: nada que valha o ouro agora.';ov.querySelector('.shop-ov')?.insertBefore(p,ov.querySelector('.sgrid'));
  setTimeout(()=>{if(state==='shop')closeShop()},1800);
