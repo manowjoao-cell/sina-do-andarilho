@@ -353,6 +353,7 @@ body.side #tab-al:not([hidden]) .achs{grid-template-columns:repeat(2,minmax(0,1f
 body.side .quick{display:none}
 body.side .top .brand{max-width:none!important;margin:0 14px}
 }
+#asty{width:auto;max-width:190px;min-height:38px;font-size:14px;padding:0 6px;border:2px solid #2f4a4f;border-radius:10px;background:#0d1719}
 #sideb{display:none}@media (min-width:1200px){#sideb{display:inline-flex}}
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -386,7 +387,7 @@ window.FIREBASE_CONFIG={
 <button id="spb" class="on" title="Habilidade especial da classe">Especial (Q)</button><button id="manb" title="Controle manual: A e D andam, mouse mira, botão esquerdo ataca, espaço esquiva">Manual (M)</button><button id="rollb" title="Esquiva: 0,6s invulnerável, recarga 4s">Esquivar (E)</button>
 <button id="pause">Pausar</button>
 <button id="sideb" title="Mostrar ou esconder o painel lateral (P)">Painel (P)</button><button id="hudb" title="Mostrar ou esconder atributos e sinergias na tela (H)">Ocultar atributos</button>
-<label class="tg"><input type="checkbox" id="auto"> Escolha automática</label>
+<label class="tg"><input type="checkbox" id="auto"> Escolha automática</label><select id="asty" title="Estilo da escolha automática de cartas" aria-label="Estilo automático"><option value="eq">Equilibrado</option><option value="of">Ofensivo</option><option value="de">Tanque</option><option value="su">Vampiro</option><option value="ut">Caçador de tesouros</option></select>
 <div class="seg snd" role="group" aria-label="Som"><button id="sndb" aria-pressed="true" title="Efeitos sonoros">Som</button><button id="musb" aria-pressed="true" title="Música ambiente">Música</button><input type="range" id="vol" min="0" max="100" aria-label="Volume"></div>
 <span class="sp"></span>
 <button id="dailyq" title="Corrida do dia com modificadores especiais">Corrida diária</button><button id="clsb">Classe</button><label class="sth">Início<select id="sth" aria-label="Horda inicial"></select></label><button id="restart">Recomeçar corrida</button><button id="instb" hidden>Instalar app</button>
@@ -1029,12 +1030,17 @@ function makeOffer(minR){
  return out;
 }
 let pickTitle='',pickMin=0;
+const ASTY={eq:['Equilibrado',null],
+ of:['Ofensivo',['atkPct','atkFlat','aspd','crit','critD','double','multi','pierce','explode','chain','range','u_rage','u_tenth','u_cleave','u_volley','u_arcane','u_rollfire']],
+ de:['Tanque',['hpPct','armor','eva','thorns','revive','regen','u_rollfire']],
+ su:['Vampiro',['ls','onKill','regen','hpPct','u_vamp']],
+ ut:['Caçador de tesouros',['luck','xp','soul']]};
 function autoPick(){
  const sc=synCount();let bi=0,bs=-1e9;
  offer.forEach((o,i)=>{let v=o.r*10;
   if(o.sk){if(sk[o.k])v+=4+sk[o.k].rank}
-  else{const ck=catOf(o.k),n=sc[ck]||0;v+=n*1.5;if(synTier(n+1)>synTier(n))v+=8;
-   if(o.k==='soul'||o.k==='xp'||o.k==='luck')v-=3}
+  else{const ck=catOf(o.k),n=sc[ck]||0,sty=ASTY[save.aSty||'eq'][1];v+=n*(sty?.8:1.5);if(synTier(n+1)>synTier(n))v+=sty?4:8;
+   if(sty){v+=sty.includes(o.k)?16:-6}else if(o.k==='soul'||o.k==='xp'||o.k==='luck')v-=3}
   v+=Math.random()*.5;if(v>bs){bs=v;bi=i}});
  return bi}
 function openPick(minR,title,lvl){
@@ -1631,6 +1637,7 @@ document.getElementById('restart').onclick=()=>{if(state!=='dead')die();newRun()
  addEventListener('mouseup',e=>{if(e.button===0)MAN.down=0});
  addEventListener('keyup',e=>{const k=e.key.toLowerCase();if(k==='a'||k==='arrowleft')MAN.a=0;if(k==='d'||k==='arrowright')MAN.d=0});
  addEventListener('blur',()=>{MAN.a=MAN.d=MAN.down=0})}
+{const as=document.getElementById('asty');as.value=save.aSty||'eq';as.title='Estilo da escolha automática: '+ASTY[as.value][0];as.onchange=()=>{save.aSty=as.value;persist();as.blur()}}
 const au=document.getElementById('auto');au.checked=!!save.auto;au.onchange=()=>{save.auto=au.checked;persist();if(au.checked&&state==='pick'&&!pickTitle.startsWith('Bênção'))choose(autoPick())};
 {const sb=document.getElementById('sndb'),mb=document.getElementById('musb'),vr=document.getElementById('vol');
  const sync=()=>{sb.classList.toggle('on',!save.mute);sb.setAttribute('aria-pressed',!save.mute);mb.classList.toggle('on',!save.nomus);mb.setAttribute('aria-pressed',!save.nomus);vr.value=Math.round((save.vol??.6)*100)};sync();
